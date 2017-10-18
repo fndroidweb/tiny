@@ -14,6 +14,62 @@ const Bind    = require('../models/bind');
 const Search  = require('../common/elasticsearch');
 const Status = [ '初始化','绑定','开始更新','正在更新','显示成功','显示失败']
 
+exports.changeprice = (infos,cb) =>{
+	async.waterfall([
+		(_cb) =>{
+        	Store.find({group : group_id}, (err, doc) => {
+        		if (err) {
+        			_cb(500);
+        		} else if (!doc.length) {
+        			_cb(705);
+        		} else {
+        			_cb(null, doc);
+        		}
+        	});
+       
+		},		
+		(store,_cb) =>{
+			Store.update({barcode :infos.barcode},{sale_price : infos.price},(err,doc) =>{
+				if(err){
+					_cb(500);
+
+				}else if(!doc){
+					_cb(703);
+
+				}else{
+
+					_cb(null,store);
+
+				}
+
+			});
+
+		},
+		(store,_cb) => {
+			console.log(infos.barcode);
+			SKU.findOne({barcode: infos.barcode}, (err, doc) => {
+				if (err) {
+					_cb(500);
+				} else if (!doc){
+					_cb(702);
+				} else {
+					if (doc.sale_price)      infos.price = doc.sale_price;
+					if (doc.promotion_price) infos.price = doc.promotion_price;
+					if (doc.leaguer_price)   infos.price = doc.leaguer_price;
+
+					_cb(null, doc);
+				}				
+			});
+		},
+		(store,sku, _cb) => {
+			TCP.updateESL(store, [sku], util.getID('random'), _cb);
+		}
+
+		],cb)
+
+
+}
+
 exports.getmp4url = (infos,cb) =>{
 	async.waterfall([
 		(_cb) => {

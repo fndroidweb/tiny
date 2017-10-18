@@ -13,6 +13,53 @@ const ErrCode    = config.ErrCode;
 const util       = require('../common/util');
 const test       = require('../test/test');
 
+exports.changeprice = (request,response) =>{
+	let errCode = null;
+	let group = session.getUser(request.body.token);
+	let infos = {group};
+	
+	if (!group) {
+		errCode = 607;
+
+	}else if(!request.body.barcode){
+
+		errCode = 803;
+
+	}else if (!request.body.price){
+		errCode = 805;
+	};
+	if (errCode) {
+		response.status(200).send({
+			result_code : errCode,
+			result_msg  : ErrCode[errCode]
+
+		});
+		return;
+
+	};
+	
+	infos.barcode   =  request.body.barcode;
+	infos.price     =  request.body.price;
+	esl.changeprice(infos,(err,data) =>{
+		if(err){
+			response.status(200).send({
+				result_code : err,
+				result_msg  : ErrCode[err]
+
+			});
+
+		}else{
+			response.status(200).send({
+				result_code : 200,
+				result_msg  : 'change  price successfully'
+			});
+
+		}
+
+	});
+
+}
+
 exports.getmp4url = (request,response) =>{
 	let errCode = null;
 	let infos = {
