@@ -40,8 +40,6 @@ app.get('/esl/getallsales'     , esl.getallsales);
 app.post('/esl/update'         , esl.updateESL);
 /*商品搜索*/
 app.get('/sku/search'          , esl.searchSKU);
-/*test 绑定商品及标签*/
-app.post('/esl/bind'           , esl.bind);
 
 app.get('/esl/update/status'   , esl.statusOfUpdate);
 

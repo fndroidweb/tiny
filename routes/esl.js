@@ -11,7 +11,6 @@ const session    = require('../common/session');
 const log_sku    = require('../common/logger').sku;
 const ErrCode    = config.ErrCode; 
 const util       = require('../common/util');
-const test       = require('../test/test');
 
 exports.changePrice = (request,response) =>{
 	let errCode = null;
@@ -278,47 +277,6 @@ exports.searchSKU = function(request, response){
 				result_msg  : data,
 				total       : total
 
-			});
-		}
-	});
-}
-
-/**
- *  搜索商品
- *  @params store_id   分店ID
- *  @params barcode    条码
- */
-exports.bind = function(request, response){
-	let errCode = null;
-	let infos = {};
-	
-	if (!request.body.barcode) {
-		errCode = 601;
-	} else if (!request.body.store_ID) {
-		errCode = 700;
-	}
-
-	if (errCode) {
-		response.status(200).send({
-			result_code : errCode,
-			result_msg  : ErrCode[errCode]
-		});
-		return;
-	}
-	infos.barcode  = request.body.barcode;
-	infos.store_id = request.body.store_ID;
-
-	test.bind(infos, (err, data) => {
-		if(err){
-			log_sku.info('bind finished', err, data);
-			response.status(200).send({
-				result_code : err,
-				result_msg  : ErrCode[err]
-			});
-		}else{
-			response.status(200).send({
-				result_code : 200,
-				result_msg  : data
 			});
 		}
 	});
