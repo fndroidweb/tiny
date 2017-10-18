@@ -50,7 +50,7 @@ exports.changePrice = (request,response) =>{
 
 }
 
-exports.getmp4url = (request,response) =>{
+exports.getMp4url = (request,response) =>{
 	let errCode = null;
 	let infos = {
 		barcode  : request.query.barcode
@@ -79,7 +79,7 @@ exports.getmp4url = (request,response) =>{
 	});
 
 }
-exports.uploadmp4 = (request,response) =>{
+exports.uploadMp4 = (request,response) =>{
 	let errMsg = null;
 	let infos = {};
 	var form = new formidable.IncomingForm();
@@ -323,7 +323,7 @@ exports.statusOfUpdate = function(request, response){
 	});
 }
 
-exports.addsales = function(request,response){
+exports.addSales = function(request,response){
 	let infos = {};
 	
 	infos.name            = request.body.name;

@@ -98,7 +98,7 @@ exports.changePrice = (infos, cb) =>{
 }
 
 
-exports.getmp4url = (infos,cb) =>{
+exports.getMp4url = (infos,cb) =>{
 	async.waterfall([
 		(_cb) => {
 			Sales.findOne({ barcode :infos.barcode },(err,doc) =>{
@@ -115,7 +115,7 @@ exports.getmp4url = (infos,cb) =>{
 		cb)
 }
 
-exports.uploadmp4 = (infos,files,cb) =>{
+exports.uploadMp4 = (infos,files,cb) =>{
 	async.waterfall([
 
         (_cb) => {
@@ -373,7 +373,7 @@ exports.getallsales = (infos,cb) =>{
 
 }
 
-exports.addsales = (infos, cb) => {
+exports.addSales = (infos, cb) => {
 	async.waterfall([
 		(_cb) => {
 			Sales.findOne({name: infos.name}, (err, doc) => {
