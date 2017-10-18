@@ -157,8 +157,8 @@ exports.bind = (infos, ip, port, cb) => {
 	            unit           : sku.unit,
 	            "2d_code"      : sku.qrcode,
 	            inner_code     : sku.inner_code,
-	            sale_price     : sku.original_price ? sku.original_price.toString() : undefined,
-	            promotion_price: sku.sale_price ? sku.sale_price.toString() :  undefined,
+	            sale_price     : sku.sale_price ? sku.sale_price.toString() : undefined,
+	            promotion_price: sku.promotion_price ? sku.promotion_price.toString() :  undefined,
 	            promotion_start: sku.promotion_start ? sku.promotion_start.toFormat('YYYY-MM-DD') : undefined,
 	            promotion_end  : sku.promotion_end ? sku.promotion_end.toFormat('YYYY-MM-DD') : undefined,
 	            leaguer_price  : sku.leaguer_price ? sku.leaguer_price.toString() : undefined,
@@ -171,8 +171,8 @@ exports.bind = (infos, ip, port, cb) => {
 					return _cb(500)
 				} else if (doc) {
 					if (doc.sale_price)      reqBody.sale_price = doc.sale_price;
-					if (doc.promotion_price) reqBody.sale_price = doc.promotion_price;
-					if (doc.leaguer_price)   reqBody.sale_price = doc.leaguer_price;
+					if (doc.promotion_price) reqBody.promotion_price = doc.promotion_price;
+					if (doc.leaguer_price)   reqBody.leaguer_price = doc.leaguer_price;
 				}
 				_cb(null, reqBody);
 			});
