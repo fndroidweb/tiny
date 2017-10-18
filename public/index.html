@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="zhcn">
+<head>
+    <meta charset="utf-8">
+    <title>Test page of esl</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/bootstrap.css" rel="stylesheet">
+	<style>
+      body {
+        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+      }
+    </style>
+</head>
+<body>
+	<section class="container">
+
+	<div class="page-header">
+		<section class="row">
+			<div class="span4">
+				<h1>模拟发送</h1>
+				<br>
+				<p>发送测试数据</p>
+				<br>
+				<form action="/esl/update" method="post">
+					<table>
+						<tr><td>store_ID</td><td><input type="text" name="store_ID"/></td> </tr>
+						<tr><td>barcode</td><td><input type="text" name="barcode"/></td> </tr>
+						<tr><td><input type="submit" value="发送" /></td></tr>
+					</table>
+				</form>
+			</div>
+			<div class="span4">
+				<h1>商超加盟</h1>
+				<br>
+				<p>通过名字添加商超</p>
+				<p>token     : 总店登陆验证</p>
+				<br>
+				<form action="/store/add" method="post">
+					<table>
+						<tr><td>store_name</td><td><input type="text" name="store_name"/></td> </tr>
+						<tr><td>area</td><td><input type="text" name="area"/></td> </tr>
+						<tr><td>address</td><td><input type="text" name="address"/></td> </tr>
+						<tr><td>phone</td><td><input type="text" name="phone"/></td> </tr>
+						<tr><td>contact</td><td><input type="text" name="contact"/></td> </tr>
+						<tr><td>desc</td><td><input type="text" name="desc"/></td> </tr>
+						<tr><td>mac</td><td><input type="text" name="mac"/></td> </tr>
+						<tr><td>token</td><td><input type="text" name="token"/></td> </tr>
+						<tr><td>passwd</td><td><input type="text" name="passwd"/></td> </tr>
+						<tr><td><input type="submit" value="添加" /></td></tr>
+					</table>
+				</form>
+			</div>
+			<div class="span4">
+				<h1>在线商超</h1>
+				<br>
+				<p>获取保持连接的商超列表</p>
+				<br>
+				<form action="/store/online/get" method="get">
+					<table>
+						<tr><td><input type="submit" value="查看" /></td></tr>
+					</table>
+				</form>
+			</div>
+		</section>
+		<section class="row">
+			<div class="span4">
+				<h1>上传商品列表</h1>
+				<br>
+				<p>功能：上传Excel，商品列表</p>
+				<p>token     : 总店登陆验证</p>
+				<p>dev: 设备列表-><a href="商品清单.xlsx" download="模板.xlsx">模板下载</a></p>
+				<form action="/esl/uploadexcell" method="post" enctype ='multipart/form-data'>
+					<table>
+						<tr><td>token</td><td><input type="text" name="token"/></td></tr>
+						<tr><td>dev</td><td><input type="file" name="sale" /></td></tr>
+						<tr><td>&nbsp;</td></tr>
+						<tr><td><input type="submit" value="上传" /></td></tr>
+					</table>
+				</form>
+			</div>
+			<div class="span4">
+				<h1>搜索商品</h1>
+				<br>
+				<p>token     : 总店登陆验证</p>
+				<p>condition : 查询条件,空格分割</p>
+				<form action="/sku/search" method="get">
+					<table>
+						<tr><td>token</td><td><input type="text" name="token"/></td> </tr>
+						<tr><td>condition</td><td><input type="text" name="condition"/></td> </tr>
+						<tr><td>start</td><td><input type="text" name="start"/></td> </tr>
+						<tr><td>limit</td><td><input type="text" name="limit"/></td> </tr>
+						<tr><td>&nbsp;</td></tr>
+						<tr><td><input type="submit" value="搜索" /></td></tr>
+					</table>
+				</form>
+			</div>
+			<div class="span4">
+				<h1>修改密码</h1>
+				<br>
+				<p>token  : 分店登陆认证</p>
+				<p>passwd : 密码</p>
+				<p>repeatpasswd :重复密码</p>
+				<form action="/store/changepassword" method="post">
+					<table>
+						<tr><td>passwd</td><td><input type="text" name="passwd"/></td> </tr>
+						<tr><td>repeatpasswd</td><td><input type="text" name="repeatpasswd"/></td> </tr>
+						<tr><td>token</td><td><input type="text" name="token"/></td> </tr>
+						<tr><td>&nbsp;</td></tr>
+						<tr><td><input type="submit" value="登陆" /></td></tr>
+					</table>
+				</form>
+			</div>
+		</section>
+		<section class="row">
+			<div class="span4">
+
+				<h1>查询超市</h1>
+				<br>
+				<p>token  : 总店登陆认证</p>
+				<form action="/store/get" method="get" >
+					<table>
+						<tr><td>token</td><td><input type="text" name="token"/></td> </tr>
+						<tr><td>&nbsp;</td></tr>
+						<tr><td><input type="submit" value="查询" /></td></tr>
+					</table>
+				</form>
+			</div>
+			<div class="span4">
+				<h1>总店登陆</h1>
+				<br>
+				<p>user  : 用户名</p>
+				<p>passwd: 密码</p>
+				<form action="/group/login" method="post">
+					<table>
+						
+						<tr><td>user</td><td><input type="text" name="user"/></td> </tr>
+						<tr><td>passwd</td><td><input type="text" name="passwd"/></td> </tr>
+						<tr><td>&nbsp;</td></tr>
+						<tr><td><input type="submit" value="登陆" /></td></tr>
+					</table>
+				</form>
+			</div>
+			<div class="span4">
+				<h1>分店登陆</h1>
+				<br>
+				<p>name  : 店名</p>
+				<p>passwd: 密码</p>
+				<form action="/store/login" method="post">
+					<table>
+						
+						<tr><td>name</td><td><input type="text" name="name"/></td> </tr>
+						<tr><td>passwd</td><td><input type="text" name="passwd"/></td> </tr>
+						<tr><td>&nbsp;</td></tr>
+						<tr><td><input type="submit" value="登陆" /></td></tr>
+					</table>
+				</form>
+			</div>
+
+			<div class="span4">
+				<h1>修改密码</h1>
+				<br>
+				<p>name  : 店名</p>
+				<p>passwd: 密码</p>
+				<p>repeatpasswd :重复密码</p>
+				<form action="/store/changepassword" method="post">
+					<table>
+						
+						<tr><td>name</td><td><input type="text" name="name"/></td> </tr>
+						<tr><td>passwd</td><td><input type="text" name="passwd"/></td> </tr>
+						<tr><td>repeatpasswd</td><td><input type="text" name="repeatpasswd"/></td> </tr>
+						<tr><td>token</td><td><input type="text" name="token"/></td> </tr>
+						<tr><td>&nbsp;</td></tr>
+						<tr><td><input type="submit" value="登陆" /></td></tr>
+					</table>
+				</form>
+			</div>
+			<div class="span4">
+				<h1>上传广告视频</h1>
+				<br>
+				<p>功能:上传广告视频</p>
+				
+				<form action="/esl/uploadmp4" method="post" enctype ='multipart/form-data'>
+					<table>
+						<tr><td>barcode</td><td><input type="text" name="barcode" /></td> </tr>
+						<tr><td>dev</td><td><input type="file" name="doc" /></td> </tr>
+						<tr><td>&nbsp;</td></tr>
+						<tr><td><input type="submit" value="上传" /></td></tr>
+					</table>
+				</form>
+			</div>
+			<div class="span4">
+				<h1>查询广告视频</h1>
+				<br>
+				<p>功能:查询广告视频</p>
+				
+				<form action="/esl/mp4/get" method="get" >
+					<table>
+						<tr><td>barcode</td><td><input type="text" name="barcode" /></td> </tr>					
+						<tr><td>&nbsp;</td></tr>
+						<tr><td><input type="submit" value="查询" /></td></tr>
+					</table>
+				</form>
+			</div>
+
+
+		</section>
+		<section class="row">
+			<div class="span4">
+
+				<h1>模拟：绑定</h1>
+				<br>
+				<form action="/esl/bind" method="post" >
+					<table>
+						<tr><td>store_ID</td><td><input type="text" name="store_ID"/></td> </tr>
+						<tr><td>barcode</td><td><input type="text" name="barcode"/></td> </tr>
+						<tr><td>&nbsp;</td></tr>
+						<tr><td><input type="submit" value="绑定" /></td></tr>
+					</table>
+				</form>
+			</div>
+			<div class="span4">
+
+				<h1>查询更新状态</h1>
+				<br>
+				<p>token  : 总店登陆认证</p>
+				<p>req_id : 更新ID</p>
+				<form action="/esl/update/status" method="get" >
+					<table>
+						<tr><td>req_id</td><td><input type="text" name="req_id"/></td> </tr>
+						<tr><td>token</td><td><input type="text" name="token"/></td> </tr>
+						<tr><td>&nbsp;</td></tr>
+						<tr><td><input type="submit" value="绑定" /></td></tr>
+					</table>
+				</form>
+			</div>
+			<div class="span4">
+
+				<h1>修改分店价格</h1>
+				<br>
+				<p>store_id  : 分店id</p>
+				<p>sku : 商品名</p>
+				<form action="/store/price" method="post" >
+					<table>
+						<tr><td>store_id</td><td><input type="text" name="store_id"/></td> </tr>
+						<tr><td>barcode</td><td><input type="text" name="barcode"/></td> </tr>
+						<tr><td>price</td><td><input type="text" name="price"/></td> </tr>
+						<tr><td>&nbsp;</td></tr>
+						<tr><td><input type="submit" value="修改" /></td></tr>
+					</table>
+				</form>
+			</div>
+		</section>
+
+
+  </body>
+
+</html>

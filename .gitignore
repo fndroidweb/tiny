@@ -1,0 +1,10 @@
+*.log
+node_modules/
+.DS_Store
+.jshintrc
+.project
+.settings/
+.tern-project
+public/dot/
+*.txt
+*.png
