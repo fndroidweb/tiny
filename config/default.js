@@ -42,6 +42,7 @@ module.exports = {
         801 : 'barcode is null',
         802 : 'barcode not exist',
         803 : 'sku need to be sent',
-        804 : 'store id need to be sent'
+        804 : 'store id need to be sent',
+        805 : 'price need to be sent'
     }
 }

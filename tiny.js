@@ -63,7 +63,7 @@ app.post('/esl/uploadmp4'      ,esl.uploadmp4);
 
 app.get('/esl/mp4/get'         ,esl.getmp4url);
 
-app.post('/esl/price'          ,esl.changeprice);
+app.post('/esl/price'          ,esl.changePrice);
 
 
 

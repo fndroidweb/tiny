@@ -14,61 +14,89 @@ const Bind    = require('../models/bind');
 const Search  = require('../common/elasticsearch');
 const Status = [ '初始化','绑定','开始更新','正在更新','显示成功','显示失败']
 
-exports.changeprice = (infos,cb) =>{
+exports.changePrice = (infos, cb) =>{
 	async.waterfall([
 		(_cb) =>{
-        	Store.find({group : group_id}, (err, doc) => {
+        	Group.findOne({group_id : infos.group}, (err, doc) => {
         		if (err) {
         			_cb(500);
-        		} else if (!doc.length) {
-        			_cb(705);
+        		} else if (!doc) {
+        			_cb(704);
         		} else {
         			_cb(null, doc);
         		}
         	});
-       
-		},		
-		(store,_cb) =>{
-			Store.update({barcode :infos.barcode},{sale_price : infos.price},(err,doc) =>{
-				if(err){
-					_cb(500);
-
-				}else if(!doc){
-					_cb(703);
-
-				}else{
-
-					_cb(null,store);
-
-				}
-
-			});
-
 		},
-		(store,_cb) => {
-			console.log(infos.barcode);
+		(group, _cb) => {
 			SKU.findOne({barcode: infos.barcode}, (err, doc) => {
 				if (err) {
 					_cb(500);
 				} else if (!doc){
 					_cb(702);
 				} else {
-					if (doc.sale_price)      infos.price = doc.sale_price;
-					if (doc.promotion_price) infos.price = doc.promotion_price;
-					if (doc.leaguer_price)   infos.price = doc.leaguer_price;
-
-					_cb(null, doc);
+					_cb(null, group, doc);
 				}				
 			});
+		},		
+		(group, sku, _cb) =>{
+			SKU.update({
+				barcode :infos.barcode,
+				group_name : group.group_name
+			}, {sale_price : infos.price}, (err, doc) => {
+				if(err){
+					_cb(500);
+				} else if (!doc) {
+					_cb(703);
+				} else {
+					sku.sale_price = infos.price;
+					_cb(null, group, sku);
+				}
+			});
 		},
-		(store,sku, _cb) => {
-			TCP.updateESL(store, [sku], util.getID('random'), _cb);
+		(group, sku, _cb) => {
+       		Store.find({group : group.group_id}, (err, doc) => {
+        		if (err) {
+        			_cb(500);
+        		} else if (!doc.length) {
+        			_cb(705);
+        		} else {
+        			_cb(null, doc, sku);
+        		}
+        	});			
+		},
+		(stores, sku, _cb) => {
+        	let req_id   = util.getID('price');
+        	async.eachSeries(stores, (store, __cb) => {
+        		if (!store.status) return __cb();
+        		Bind.find({store_id : store.store_id, barcode : sku.barcode}, (err, doc) => {
+        			if (err) {
+        				__cb(500);
+        			} else if (!doc) {
+        				__cb();
+        			} else {
+    					Bind.update({store_id : store.store_id, barcode : sku.barcode}, {
+    						req_id : req_id,
+    						status : 2,
+    						$unset : {
+    							sale_price : true
+    						}
+    					}, (err) => {/*do nothing*/});
+        				TCP.updateESL(store, [sku], req_id, __cb);
+        			}
+        		});
+        	}, (err) => {
+                if (err) {
+                    _cb(err);
+                } else {
+                    _cb(null, req_id);
+                }
+            });			
 		}
-
-		],cb)
-
-
+	],
+	cb
+	)
 }
+
 
 exports.getmp4url = (infos,cb) =>{
 	async.waterfall([

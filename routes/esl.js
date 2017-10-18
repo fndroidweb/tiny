@@ -13,49 +13,40 @@ const ErrCode    = config.ErrCode;
 const util       = require('../common/util');
 const test       = require('../test/test');
 
-exports.changeprice = (request,response) =>{
+exports.changePrice = (request,response) =>{
 	let errCode = null;
 	let group = session.getUser(request.body.token);
 	let infos = {group};
-	
 	if (!group) {
 		errCode = 607;
-
-	}else if(!request.body.barcode){
-
+	} else if(!request.body.barcode) {
 		errCode = 803;
-
-	}else if (!request.body.price){
+	} else if (!request.body.price || isNaN(request.body.price)) {
 		errCode = 805;
 	};
 	if (errCode) {
 		response.status(200).send({
 			result_code : errCode,
 			result_msg  : ErrCode[errCode]
-
 		});
 		return;
 
 	};
-	
 	infos.barcode   =  request.body.barcode;
-	infos.price     =  request.body.price;
-	esl.changeprice(infos,(err,data) =>{
+	infos.price     =  +request.body.price;
+	esl.changePrice(infos, (err, data) => {
 		if(err){
 			response.status(200).send({
 				result_code : err,
 				result_msg  : ErrCode[err]
-
 			});
-
-		}else{
+		} else {
 			response.status(200).send({
 				result_code : 200,
-				result_msg  : 'change  price successfully'
+				result_msg  : 'change price successfully',
+				req_id      : data
 			});
-
 		}
-
 	});
 
 }
