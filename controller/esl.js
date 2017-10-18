@@ -68,7 +68,7 @@ exports.changePrice = (infos, cb) =>{
         	let req_id   = util.getID('price');
         	async.eachSeries(stores, (store, __cb) => {
         		if (!store.status) return __cb();
-        		Bind.find({store_id : store.store_id, barcode : sku.barcode}, (err, doc) => {
+        		Bind.findOne({store_id : store.store_id, barcode : sku.barcode}, (err, doc) => {
         			if (err) {
         				__cb(500);
         			} else if (!doc) {
