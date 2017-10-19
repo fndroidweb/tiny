@@ -184,10 +184,20 @@ function updateESL(store, sku, req_id, cb) {
         });
     }
 
-    body.reqBody = {list};
     if (CONNECTS[`${store.ip}:${store.port}`]) {
-         CONNECTS[`${store.ip}:${store.port}`].write(JSON.stringify(body));
-         cb();        
+        let num = 0;
+        while(num < list.length) {
+            doS(num)
+            num += 1;
+        }
+
+        function doS(num) {
+            setTimeout(() => {
+                body.reqBody = {list : list.slice(num, num + 1)};
+                CONNECTS[`${store.ip}:${store.port}`].write(JSON.stringify(body));
+            }, num * 200);
+        }
+        cb();        
      } else {
         cb(703);
         log_tcp.error(`${store.ip}:${store.port} has already disconnected`);
