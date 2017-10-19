@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>添加门店</title>
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="format-detection" content="telephone=no">
+	<link rel="stylesheet" href="css/layui.css" media="all" />
+</head>
+<body class="childrenBody">
+	<form class="layui-form" style="width:80%;">
+		<div class="layui-form-item">
+			<label class="layui-form-label">门店名称</label>
+			<div class="layui-input-block">
+				<input type="text" class="layui-input storeName" lay-verify="required" placeholder="请输入门店名称">
+			</div>
+		</div>		
+		<div class="layui-form-item">
+			<label class="layui-form-label">区域</label>
+			<div class="layui-input-block">
+				<input type="text" class="layui-input storeArea" lay-verify="required" placeholder="请输入门店所属区域">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">门店地址</label>
+			<div class="layui-input-block">
+				<input type="tel" class="layui-input storeAddress" lay-verify="required" placeholder="请输入门店地址">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">门店联系人</label>
+			<div class="layui-input-block">
+				<input type="tel" class="layui-input storeContact" lay-verify="required" placeholder="请输入门店联系人">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">联系电话</label>
+			<div class="layui-input-block">
+				<input type="text" class="layui-input storePhone" lay-verify="required" placeholder="请输入联系电话">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">描述信息</label>
+			<div class="layui-input-block">
+				<textarea  class="layui-input storeinfo" lay-verify="required" placeholder="请输入门店描述信息"></textarea>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">Mac地址</label>
+			<div class="layui-input-block">
+				<input type="text" class="layui-input storeMac" lay-verify="required" placeholder="请输入路由器mac地址">
+			</div>
+		</div>		
+		<div class="layui-form-item">
+			<label class="layui-form-label">账户密码</label>
+			<div class="layui-input-block">
+				<input type="password" class="layui-input storePas" lay-verify="required" placeholder="请输入账户密码">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<div class="layui-input-block">
+				<button class="layui-btn addstore" type="button"  lay-submit="">立即提交</button>
+				<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+		    </div>
+		</div>
+	</form>
+	<script type="text/javascript" src="layui/layui.js"></script>
+	<script type="text/javascript" src="js/linksAdd.js"></script>
+</body>
+</html>

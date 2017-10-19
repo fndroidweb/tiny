@@ -1,0 +1,28 @@
+[{
+    "linksId" : "1",
+    "linksName" : "门店A",
+    "linksUrl" : "00000",
+    "masterEmail" : "3",
+    "linksTime" : "20",
+    "showAddress" : "盛夏路",
+    "worker" : "张三",
+    "telephone" : "12345678"    
+},{
+    "linksId" : "2",
+    "linksName" : "门店B",
+    "linksUrl" : "00001",
+    "masterEmail" : "3",
+    "linksTime" : "30",
+    "showAddress" : "盛夏路",
+    "worker" : "李四",
+    "telephone" : "12345678" 
+},{
+    "linksId" : "3",
+    "linksName" : "门店C",
+    "linksUrl" : "00002",
+    "masterEmail" : "3",
+    "linksTime" : "40",
+    "showAddress" : "盛夏路",
+    "worker" : "王五",
+    "telephone" : "12345678" 
+}]

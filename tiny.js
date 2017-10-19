@@ -33,7 +33,7 @@ app.all('*', function(req, res, next) {
 /*上传/更新 商品列表*/
 app.post('/esl/uploadexcell'   , esl.uploadExcell);
 
-app.post('/esl/addsales'       , esl.addsales);
+app.post('/esl/addsales'       , esl.addSales);
 
 app.get('/esl/getallsales'     , esl.getallsales);
 
@@ -57,9 +57,9 @@ app.post('/store/price'        ,store.changeprice);
 
 app.post('/store/changepasswd' ,store.changePasswd);
 
-app.post('/esl/uploadmp4'      ,esl.uploadmp4);
+app.post('/esl/uploadmp4'      ,esl.uploadMp4);
 
-app.get('/esl/mp4/get'         ,esl.getmp4url);
+app.get('/esl/mp4/get'         ,esl.getMp4url);
 
 app.post('/esl/price'          ,esl.changePrice);
 

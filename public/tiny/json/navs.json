@@ -1,0 +1,34 @@
+[{
+	"title" : "后台首页",
+	"icon" : "icon-computer",
+	"href" : "main.html",
+	"spread" : false
+},{
+	"title" : "商品管理",
+	"icon" : "&#xe64c;",
+	"href" : "newsList.html",
+	"spread" : false
+
+},{
+	"title" : "智能变价管理",
+	"icon" : "&#xe64c;",
+	"href" : "price.html",
+	"spread" : false
+
+},{
+
+	"title" : "门店管理",
+	"icon" : "&#xe64c;",
+	"href" : "store.html",
+	"spread" : false
+},{
+	"title" : "标签列表",
+	"icon" : "&#xe64c;",
+	"href" : "",
+	"spread" : false
+},{
+	"title" : "基站列表",
+	"icon" : "&#xe64c;",
+	"href" : "",
+	"spread" : false
+}]
