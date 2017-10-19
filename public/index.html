@@ -248,6 +248,36 @@
 				</form>
 			</div>
 		</section>
+		<section class="row">
+			<div class="span4">
+
+				<h1>获取方案字段</h1>
+				<br>
+				<form action="/esl/getScheme" method="get" >
+					<table>
+						<tr><td>token</td><td><input type="text" name="token"/></td> </tr>
+						<tr><td>&nbsp;</td></tr>
+						<tr><td><input type="submit" value="查询" /></td></tr>
+					</table>
+				</form>
+			</div>
+
+			<div class="span4">
+
+				<h1>查询商品信息</h1>
+				<br>
+				<p>token  : token</p>
+				<p>barcode : 商品名</p>
+				<form action="/esl/searchsalesinfo" method="post" >
+					<table>
+						<tr><td>token</td><td><input type="text" name="token"/></td> </tr>
+						<tr><td>barcode</td><td><input type="text" name="barcode"/></td> </tr>
+						<tr><td>&nbsp;</td></tr>
+						<tr><td><input type="submit" value="查询" /></td></tr>
+					</table>
+				</form>
+			</div>
+		</section>
   </body>
 
 </html>
