@@ -53,19 +53,19 @@ app.post('/group/login'        , store.groupLogin);
 
 app.post('/store/login'        , store.storeLogin);
 
-app.post('/store/price'        ,store.changeprice);
+app.post('/store/price'        , store.changeprice);
 
-app.post('/store/changepasswd' ,store.changePasswd);
+app.post('/store/changepasswd' , store.changePasswd);
 
-app.post('/esl/uploadmp4'      ,esl.uploadMp4);
+app.post('/esl/uploadmp4'      , esl.uploadMp4);
 
-app.get('/esl/mp4/get'         ,esl.getMp4url);
+app.get('/esl/mp4/get'         , esl.getMp4url);
 
-app.post('/esl/price'          ,esl.changePrice);
+app.post('/esl/price'          , esl.changePrice);
 
-app.post('/esl/searchsalesinfo',esl.searchSalesInfo);
+app.post('/esl/searchsalesinfo', esl.searchSalesInfo);
 
-app.get('/esl/getscheme'       ,esl.getScheme);
+app.get('/esl/scheme/get'      , esl.getScheme);
 
 
 
