@@ -32,7 +32,7 @@ exports.getScheme = (request,response) =>{
 exports.searchSalesInfo = (request,response) =>{
 	let errCode = null;
 	let infos = {};
-	if (!request.body.barcode) {
+	if (!request.query.barcode) {
 		errCode = 803;
 	};
 	if (errCode) {
@@ -41,9 +41,9 @@ exports.searchSalesInfo = (request,response) =>{
 			result_msg  : ErrCode[errCode]
 		});
 		return;
-
 	};
-	infos.barcode   =  request.body.barcode;
+
+	infos.barcode   =  request.query.barcode;
 	esl.searchSalesInfo(infos, (err, data) => {
 		if(err){
 			response.status(200).send({
@@ -53,12 +53,10 @@ exports.searchSalesInfo = (request,response) =>{
 		} else {
 			response.status(200).send({
 				result_code : 200,
-				result_msg  : data
-				
+				result_msg  : data	
 			});
 		}
 	});
-
 }
 
 exports.changePrice = (request,response) =>{
