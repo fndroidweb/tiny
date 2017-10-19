@@ -14,6 +14,26 @@ const Bind    = require('../models/bind');
 const Search  = require('../common/elasticsearch');
 const Status = [ '初始化','绑定','开始更新','正在更新','显示成功','显示失败']
 
+exports.searchSalesInfo = (infos,cb) =>{
+	async.waterfall([
+		(_cb) =>{
+			SKU.findOne({barcode :infos.barcode},(err,doc) =>{
+				if(err){
+					_cb(500);
+				}else if(!doc){	
+					_cb(802);	
+				}else{
+					_cb(null,doc);
+				}
+
+			})
+
+		}
+		],
+		cb
+		)
+}
+
 exports.changePrice = (infos, cb) =>{
 	async.waterfall([
 		(_cb) =>{

@@ -12,6 +12,69 @@ const log_sku    = require('../common/logger').sku;
 const ErrCode    = config.ErrCode; 
 const util       = require('../common/util');
 
+exports.getScheme = (request,response) =>{
+	let errCode = null;
+	let group = session.getUser(request.body.token);
+	
+	if (errCode) {
+		response.status(200).send({
+			result_code : errCode,
+			result_msg  : ErrCode[errCode]
+		});
+		return;
+
+	};
+	
+	 (err, data) => {
+		if(err){
+			response.status(200).send({
+				result_code : err,
+				result_msg  : ErrCode[err]
+			});
+		} else {
+			response.status(200).send({
+				result_code : 200,
+				result_msg  : {scheme_name,scheme_type,scheme_sales,scheme_price}
+				
+			});
+		}
+	}
+	
+
+}
+
+exports.searchSalesInfo = (request,response) =>{
+	let errCode = null;
+	let infos = {};
+	if (!request.body.barcode) {
+		errCode = 803;
+	};
+	if (errCode) {
+		response.status(200).send({
+			result_code : errCode,
+			result_msg  : ErrCode[errCode]
+		});
+		return;
+
+	};
+	infos.barcode   =  request.body.barcode;
+	esl.searchSalesInfo(infos, (err, data) => {
+		if(err){
+			response.status(200).send({
+				result_code : err,
+				result_msg  : ErrCode[err]
+			});
+		} else {
+			response.status(200).send({
+				result_code : 200,
+				result_msg  : data
+				
+			});
+		}
+	});
+
+}
+
 exports.changePrice = (request,response) =>{
 	let errCode = null;
 	let group = session.getUser(request.body.token);
