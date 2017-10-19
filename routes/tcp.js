@@ -188,14 +188,14 @@ function updateESL(store, sku, req_id, cb) {
         let num = 0;
         while(num < list.length) {
             doS(num)
-            num += 1;
+            num += 15;
         }
 
         function doS(num) {
             setTimeout(() => {
-                body.reqBody = {list : list.slice(num, num + 1)};
+                body.reqBody = {list : list.slice(num, num + 15)};
                 CONNECTS[`${store.ip}:${store.port}`].write(JSON.stringify(body));
-            }, num * 200);
+            }, num * 20);
         }
         cb();        
      } else {
