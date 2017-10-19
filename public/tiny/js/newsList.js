@@ -221,7 +221,7 @@ layui.config({
 						'<td>' + currData[i].group_name + '</td>' +
 						'<td>' + currData[i].barcode + '</td>' +
 						'<td>' + currData[i].name + '</td>' +
-						'<td ondblclick="toReplace(this)">' + currData[i].sale_price + '</td>' +
+						'<td onclick="toReplace(this)">' + currData[i].sale_price + '</td>' +
 						'<td>' + currData[i].original_price + '</td>' +
 						'<td>' + currData[i].reduction_reason + '</td>' +
 						'<td>' + currData[i].leaguer_price + '</td>' +
@@ -295,10 +295,10 @@ layui.config({
 				},
 				async: true,
 				success: function(db) {
-					if(db.result_code) {
+					if(db.result_code==200) {
 						alert("价格修改成功");
-					} else {
-						alert(db.result_code);
+					} else if(db.result_code==805){
+						alert("价格不能为空");
 					}
 				}
 			});
