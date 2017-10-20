@@ -107,7 +107,7 @@ exports.getMp4url = (request,response) =>{
 		errCode = 801;
 	} 
 
-	esl.getmp4url(infos, (err, data) => {
+	esl.getMp4url(infos, (err, data) => {
 		if(err){
 			console.log(data);
 			response.status(200).send({
