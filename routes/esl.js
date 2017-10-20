@@ -147,7 +147,7 @@ exports.uploadMp4 = (request,response) =>{
 		}
 		infos.barcode = fields.barcode;
 
-		esl.uploadmp4(fields,files,(err,data) =>{
+		esl.uploadMp4(fields,files,(err,data) =>{
 
 
 			if(err){
