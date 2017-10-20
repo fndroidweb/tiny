@@ -6,7 +6,7 @@ module.exports = {
 		uri : 'mongodb://tiny:123456@106.14.214.43:27017/tiny'
 	},
 	port: 6886,
-	domain: 'http://bookstore.fndroid.com',
+	domain: 'http://tiny.fndroid.com',
 	tcpPort: 9009,
 	ErrCode : {
     	500 : 'system error',
