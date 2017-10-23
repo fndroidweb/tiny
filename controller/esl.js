@@ -604,7 +604,7 @@ exports.getSkus = (infos, cb) => {
 	 				_cb(500, err);
 	 			} else {
 	 				for (let i = 0; i < docs.length; i++) {
-	 					let index = docs[i].barcode.indexOf(barcodes);
+	 					let index = barcodes.indexOf(docs[i].barcode);
 	 					if (binds[index].sale_price) {
 	 						docs[i].sale_price = binds[index].sale_price
 	 					}
