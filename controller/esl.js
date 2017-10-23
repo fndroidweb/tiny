@@ -581,7 +581,7 @@ exports.getSkus = (infos, cb) => {
  				if(err){
  					_cb(500, err);
  				} else {
- 					_cb(null, docs, group_id);
+ 					_cb(null, docs, group_name);
  				}
 			});
 		},
