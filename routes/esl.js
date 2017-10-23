@@ -414,6 +414,7 @@ exports.getSkus = (request, response) => {
 	
 	let store_id =  session.getUser(request.query.token);
 	let infos = {store_id};
+	let errCode = null;
 	log_sku.info('store get Skus start', store_id);
 	if (!store_id) {
 		errCode = 607;
