@@ -572,7 +572,7 @@ exports.getSkus = (infos, cb) => {
  				} else if (!doc) {
  					_cb(701);
  				} else {
- 					_cb(null, doc.group_id);
+ 					_cb(null, doc.group);
  				}
  			});
 		},
