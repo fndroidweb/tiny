@@ -428,7 +428,7 @@ exports.getSkus = (request, response) => {
 	esl.getSkus(infos, (err, data) => {
 		if (err) {
 			response.status(200).send({
-				result_code : err
+				result_code : err,
 				result_msg : ErrCode[err]
 			});
 		} else {
