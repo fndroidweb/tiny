@@ -57,7 +57,7 @@ app.post('/store/price'        , store.changeprice);
 
 app.post('/store/changepasswd' , store.changePasswd);
 //分店获取商品
-app.post('/store/sku/get'      , store.getSkus);
+app.get('/store/sku/get'       , esl.getSkus);
 
 app.post('/esl/uploadmp4'      , esl.uploadMp4);
 
