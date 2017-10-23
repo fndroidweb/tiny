@@ -588,7 +588,7 @@ exports.getSkus = (infos, cb) => {
 		(binds, group_name, _cb) => {
 			if (!binds.length) return _cb(null, []);
 			let barcodes = _.map(binds, 'barocde');
-			Sales.find({group_name: group_name, barocde : {$in: barcodes}}, (err, docs) => {
+			Sales.find({group_name: group_name, barcode : {$in: barcodes}}, (err, docs) => {
 				if(err){
 	 				_cb(500, err);
 	 			} else {
