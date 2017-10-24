@@ -8,7 +8,7 @@ layui.config({
 
 	//加载页面数据
 	var storesData = '';
-	var to_ken=window.sessionStorage.getItem("token");
+	var to_ken=window.localStorage.getItem("token");
 	$.ajax({
 		url : "http://tiny.fndroid.com:6886/store/get",
 		type : "get",
@@ -17,9 +17,14 @@ layui.config({
 		},
 		dataType : "json",
 		success : function(data){
-			storesData = data.result_msg;
-			//执行加载数据的方法
-			linksList();
+			if (data.result_code==200) {
+				storesData = data.result_msg;
+				//执行加载数据的方法
+				linksList();
+			} else{
+				alert("网络错误");
+			}
+
 		}
 	})
 
@@ -184,8 +189,8 @@ layui.config({
 			if(currData.length != 0){
 				for(var i=0;i<currData.length;i++){
 					
-					currData[i].heartbeat=currData[i].heartbeat.split("T")[0];
-					currData[i].begin_time=currData[i].begin_time.split("T")[0];
+//					currData[i].heartbeat=currData[i].heartbeat.split("T")[0];
+//					currData[i].begin_time=currData[i].begin_time.split("T")[0];
 					
 					if(typeof currData[i].heartbeat=='undefined'){
 						currData[i].heartbeat='暂无数据';

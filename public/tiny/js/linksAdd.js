@@ -9,7 +9,7 @@ layui.config({
 		$ = layui.jquery;
 
 	//创建一个编辑器
-	var to_ken=window.sessionStorage.getItem("token");
+	var to_ken=window.localStorage.getItem("token");
  	var editIndex = layedit.build('links_content');
  	var addLinksArray = [],addLinks;
  	$(".addstore").click(function(){
