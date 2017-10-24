@@ -53,7 +53,7 @@ app.post('/group/login'        , store.groupLogin);
 
 app.post('/store/login'        , store.storeLogin);
 
-app.post('/store/price'        , store.changeprice);
+app.post('/store/price'        , store.changePrice);
 
 app.post('/store/changepasswd' , store.changePasswd);
 //分店获取商品

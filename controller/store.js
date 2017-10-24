@@ -16,10 +16,9 @@ require('date-utils');
 * 分店修改价格
 *
 */
-exports.changeprice = (infos,cb) =>{
+exports.changePrice = (infos, cb) => {
 	async.waterfall([
 		(_cb) =>{
-			
 			Store.findOne({store_id: infos.store_id}, (err, doc) => {
 				if (err) {
 					_cb(500);
@@ -30,48 +29,41 @@ exports.changeprice = (infos,cb) =>{
 				}
 			})
 		},
-		(store, _cb) =>{
-			Bind.update({barcode :infos.barcode},{original_price : infos.price},(err,doc) =>{
-				if(err){
-					_cb(500);
-
-				}else if(!doc){
-					_cb(703);
-
-				}else{
-
-					_cb(null,store);
-
-				}
-
-			});
-
-		},
 		(store, _cb) => {
-			console.log(infos.barcode);
 			SKU.findOne({barcode: infos.barcode}, (err, doc) => {
 				if (err) {
 					_cb(500);
 				} else if (!doc){
 					_cb(702);
 				} else {
-					if (doc.sale_price)      infos.price = doc.sale_price;
-					if (doc.promotion_price) infos.price = doc.promotion_price;
-					if (doc.leaguer_price)   infos.price = doc.leaguer_price;
-
 					_cb(null, store, doc);
 				}				
 			});
 		},
+		(store, sku, _cb) =>{
+			Bind.update({
+				barcode  : infos.barcode,
+				store_id : infos.store_id
+			}, {
+				sale_price : infos.price
+			}, (err) => {
+				if(err){
+					_cb(500);
+				} else {
+					sku.sale_price = infos.price;
+					_cb(null, store, sku);
+				}
+			});
+		},
 		(store, sku, _cb) => {
+			console.log(sku);
 			TCP.updateESL(store, [sku], util.getID('random'), _cb);
 		}
-
-		],cb)
-
-
-
+	],
+	cb
+	)
 }
+
 /**
 *查询所有商店
 */
