@@ -12,6 +12,70 @@ const log_sku    = require('../common/logger').sku;
 const ErrCode    = config.ErrCode; 
 const util       = require('../common/util');
 
+exports.addScheme = (request,response) =>{
+	let errCode = null;
+	let infos = {};
+	let group = session.getUser(request.body.token);
+	if(errCode){
+		response.status(200).send({
+			result_code : errCode,
+			result_msg  : ErrCode[errCode]
+
+		});
+		return;
+	};
+	if (!group) {
+		errCode = 607;
+	} else if (!request.body.scheme_price || isNaN(request.body.scheme_price)) {
+		errCode = 805;
+	} else if(!request.body.scheme_name){
+		errCode = 901;
+	}else if(!request.body.store_type){
+		errCode = 902;
+	}else if(!request.body.scheme_type){
+		errCode = 903;
+	}else if(request.body.store_type ==="0" && !request.body.barcode){
+		errCode = 803;
+	}else if (request.body.store_type === "1" && !request.body.category) {
+		errCode = 904;
+	}else if(request.body.scheme_type === "0" && !request.body.start_time){
+		errCode = 906;
+	}else if(request.body.scheme_type === "1" && !(!request.body.start_time || !request.body.end_time) ){
+		errCode = 907;
+	}else if(request.body.scheme_type === "2" && !(!request.body.start_time || !request.body.end_time || !request.body.cycle_time)){
+		errCode = 908;
+	};
+	
+
+
+	infos.scheme_name  = request.body.scheme_name;
+	infos.store_type   = request.body.store_type;
+	infos.scheme_type  = request.body.scheme_type;
+	infos.scheme_sales = request.body.scheme_sales;
+	infos.scheme_price = request.body.scheme_price;
+	infos.start_time   = new Date(request.body.start_time);
+	infos.end_time     = new Date(request.body.end_time);
+	infos.cycle_time   = new Date(request.body.cycle_time);
+	infos.barcode      = request.body.barcode;
+	infos.category     = request.body.category;
+
+
+	esl.addScheme(infos, (err, data) => {
+		if(err){
+			response.status(200).send({
+				result_code : err,
+				result_msg  : ErrCode[err]
+			});
+		} else {
+			response.status(200).send({
+				result_code : 200,
+				result_msg  : 'save sheme successfully'	
+			});
+		}
+	});
+
+}
+
 exports.getScheme = (request,response) =>{
 	let errCode = null;
 	let group = session.getUser(request.body.token);	

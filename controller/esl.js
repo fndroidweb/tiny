@@ -11,8 +11,31 @@ const util    = require('../common/util');
 const config  = require('../config/default');
 const Group   = require('../models/group');
 const Bind    = require('../models/bind');
+const Scheme  = require('../models/scheme');
 const Search  = require('../common/elasticsearch');
-const Status = [ '初始化','绑定','开始更新','正在更新','显示成功','显示失败']
+const Status  = ['初始化','绑定','开始更新','正在更新','显示成功','显示失败']
+
+
+exports.addScheme = (infos, cb) =>{
+	async.waterfall([
+		(_cb) =>{
+			Scheme.create(infos,(err,doc) =>{
+				if (err) {
+					_cb(500);
+				}else if(!doc){
+					_cb(905);
+				}else{
+					_cb();
+
+				};
+
+			})
+			
+		}
+		],
+		cb
+		)
+}
 
 exports.searchSalesInfo = (infos, cb) =>{
 	async.waterfall([

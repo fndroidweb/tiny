@@ -43,6 +43,11 @@ module.exports = {
         802 : 'barcode not exist',
         803 : 'sku need to be sent',
         804 : 'store id need to be sent',
-        805 : 'price need to be sent'
+        805 : 'price need to be sent',
+        901 : 'scheme_price need to be sent',
+        902 : 'store_type need to be sent',
+        903 : 'scheme_type need to be sent',
+        904 : 'category need to be sent',
+        905 : 'save sheme failed'
     }
 }
