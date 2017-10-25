@@ -9,17 +9,15 @@ const log_store = require('../common/logger').store;
 /**
 * 分店价格修改
 */
-exports.changeprice = function(request,response){
+exports.changePrice = function(request,response){
 	let errCode = null;
-	let  infos = {};
-	if (!request.body.store_id) {
+	let infos = {};
+	let store_id = session.getUser(request.body.token);
+	if (!store_id) {
 		errCode = 804;
-
-	}else if(!request.body.barcode){
-
+	} else if (!request.body.barcode) {
 		errCode = 803;
-
-	}else if (!request.body.price){
+	} else if (!request.body.price || isNaN(request.body.price)){
 		errCode = 805;
 	};
 	if (errCode) {
@@ -29,31 +27,25 @@ exports.changeprice = function(request,response){
 
 		});
 		return;
-
 	};
-	infos.store_id  = request.body.store_id;
-	infos.barcode   =  request.body.barcode;
-	infos.price =  request.body.price;
-	store.changeprice(infos,(err,data) =>{
-		if(err){
+	infos.store_id  = store_id;
+	infos.barcode   = request.body.barcode;
+	infos.price     = +request.body.price;
+	store.changePrice(infos, (err, data) => {
+		if (err) {
 			response.status(200).send({
 				result_code : err,
 				result_msg  : ErrCode[err]
-
 			});
-
-		}else{
+		} else {
 			response.status(200).send({
 				result_code : 200,
-				result_msg  : 'change  price successfully'
+				result_msg  : 'change price successfully'
 			});
-
 		}
-
 	});
-
-
 }
+
 /**
  *  商店加盟
  *  总店添加分店信息

@@ -11,7 +11,7 @@
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="format-detection" content="telephone=no">
 		<link rel="stylesheet" href="css/bootstrap.css" media="all" />
-		<link rel="stylesheet" type="text/css" href="css/project.css"/>
+		<link rel="stylesheet" type="text/css" href="css/project.css" />
 	</head>
 
 	<body class="childrenBody">
@@ -26,16 +26,21 @@
 				<div class="product">
 					<div class="product_find">商品类型:</div>
 					<div class="choose_pro">
-						<label><input name="pro" type="radio" value="" />单个商品 </label>
-						<label><input name="pro" type="radio" value="" />一类商品 </label>
-						<label><input name="pro" type="radio" value="" />全部商品 </label>
+						<label><input name="pro" type="radio" value="单个商品" />单个商品 </label>
+						<label><input name="pro" type="radio" value="一类商品" />一类商品 </label>
+						<label><input name="pro" type="radio" value="全部商品" />全部商品 </label>
 					</div>
 					<div class="display_pro">
-						<div class="barcode">
+						<div class="barcode" style="display: none;">
 							<span>barcode：</span>
-							<input type="text" name="" id="" value="" placeholder="请输入商品的barcode" />
+							<input type="text" name="" id="probarcode" value="" placeholder="请输入商品的barcode" />
+							<a href="#" class="check_pro">查看信息</a>
+							<p>
+								<span class="proname"></span>
+								<span class="proprice"></span>
+							</p>
 						</div>
-						<div class="category">
+						<div class="category" style="display: none;">
 							<span>商品分类：</span>
 							<select name="">
 								<option value="">1</option>
@@ -46,21 +51,44 @@
 						</div>
 					</div>
 				</div>
-				<div class="timeset">
-					<div class="product_find">方案类型:</div>
-					<div class="choose_pro">
-						<label><input name="project" type="radio" value="" />时间段方案 </label>
-						<label><input name="project" type="radio" value="" />时间点方案 </label>
-						<label><input name="project" type="radio" value="" />保质期方案</label>
-						<label><input name="project" type="radio" value="" />库存方案 </label>
-						<label><input name="project" type="radio" value="" />销量方案 </label>
+				<div class="Project">
+					<div class="timeset">
+						<div class="product_find">方案类型:</div>
+						<div class="choosePro">
+							<label><input name="project" type="radio" value="时间点方案" />时间点方案 </label>
+							<label><input name="project" type="radio" value="时间段方案" />时间段方案 </label>
+							<label><input name="project" type="radio" value="时间周期方案" />时间周期方案 </label>
+							<label><input name="project" type="radio" value="保质期方案" />保质期方案</label>
+							<label><input name="project" type="radio" value="库存方案" />库存方案 </label>
+							<label><input name="project" type="radio" value="销量方案" />销量方案 </label>
+
+						</div>
+					</div>
+
+					<div class="pro_detail">
+						<div class="stimes_tart_end" style="display: none;">
+							<label for="">
+								开始时间：<input type="datetime-local" name="" id="" value="" />
+								结束时间：<input type="datetime-local" name="" id="" value="" />
+							</label>
+						</div>
+						<div class="stimes_tart" style="display: none;">
+							开始时间：<input type="datetime-local" name="" id="" value="" />
+						</div>
+						<div class="Stimes_tart" style="display: none;">
+							<label for="">
+								开始时间：<input type="datetime-local" name="" id="" value="" />
+								时间周期：<input type="text" name="" id="" value="" placeholder="请输入时间周期"/>
+							</label>
+						</div>
 					</div>
 				</div>
-				<div class="pro_detail">
-					<div class="stimes_tart_end">
-						开始时间：<input type="datetime-local" name="" id="" value="" />
-						结束时间：<input type="datetime-local" name="" id="" value="" />
-					</div>
+				<div class="price">
+					<label for="">修改价格：<input type="number" />元</label>
+				</div>
+				<div class="add_btn">
+					<input type="button" id="" value="添加" class="btn btn-primary Addbtn"/>
+					<input type="reset" id="" value="重置" class="btn btn-primary" />
 				</div>
 			</form>
 		</div>

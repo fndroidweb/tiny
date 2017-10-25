@@ -3,7 +3,7 @@
 
 	<head>
 		<meta charset="utf-8">
-		<title>esl后台管理系统</title>
+		<title>esl总店管理系统</title>
 		<meta name="renderer" content="webkit">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<meta http-equiv="Access-Control-Allow-Origin" content="*">
@@ -134,7 +134,7 @@
 		<script src="js/jquery-2.1.1.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			$(function() {
-				var Name = window.sessionStorage.getItem("username");
+				var Name = window.localStorage.getItem("username");
 				$(".name").html(Name);
 				$(".userName").html(Name);
 			})

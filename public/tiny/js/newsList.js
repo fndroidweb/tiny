@@ -5,7 +5,7 @@ layui.config({
 		layer = parent.layer === undefined ? layui.layer : parent.layer,
 		laypage = layui.laypage,
 		$ = layui.jquery,
-		Token = window.sessionStorage.getItem("token"),
+		Token = window.localStorage.getItem("token"),
 		barcode;
 
 	//加载页面数据

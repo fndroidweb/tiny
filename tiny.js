@@ -53,9 +53,11 @@ app.post('/group/login'        , store.groupLogin);
 
 app.post('/store/login'        , store.storeLogin);
 
-app.post('/store/price'        , store.changeprice);
+app.post('/store/price'        , store.changePrice);
 
 app.post('/store/changepasswd' , store.changePasswd);
+//分店获取商品
+app.get('/store/sku/get'       , esl.getSkus);
 
 app.post('/esl/uploadmp4'      , esl.uploadMp4);
 

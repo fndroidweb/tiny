@@ -8,7 +8,7 @@ layui.config({
 		requireid;
 	
 
-	var token = window.sessionStorage.getItem("token");
+	var token = window.localStorage.getItem("token");
 	var upload_detail = '';
 	console.log(token);
 	$(".uploadpro").click(function() {
@@ -188,9 +188,9 @@ layui.config({
 					var statuslist = db.result_msg;
 	
 					for(var i in statuslist) {
+
 						statusarray.push(statuslist[i].status);
 						var netstatuss = $(".status_content").find(".Status");
-	
 						$.each(netstatuss, function(key, value) {
 							$(value).html(statusarray[key]);
 						})

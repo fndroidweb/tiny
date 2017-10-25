@@ -472,3 +472,35 @@ exports.addSales = function(request,response){
 
 	});
 }
+
+
+exports.getSkus = (request, response) => {
+	
+	let store_id =  session.getUser(request.query.token);
+	let infos = {store_id};
+	let errCode = null;
+	log_sku.info('store get Skus start', store_id);
+	if (!store_id) {
+		errCode = 607;
+	} 
+	if(errCode){
+		response.status(200).send({
+			result_code : errCode,
+			result_msg : ErrCode[errCode]
+		});
+		return;
+	}
+	esl.getSkus(infos, (err, data) => {
+		if (err) {
+			response.status(200).send({
+				result_code : err,
+				result_msg : ErrCode[err]
+			});
+		} else {
+			response.status(200).send({
+				result_code : 200,
+				result_msg : data
+			});
+		}
+	});
+}

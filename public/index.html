@@ -276,6 +276,7 @@
 					</table>
 				</form>
 			</div>
+
 			<div class="span4">
 
 				<h1>添加策略</h1>
@@ -302,6 +303,36 @@
 						<tr><td>barcode</td><td><input type="text" name="barcode"/></td> </tr>
 						<tr><td>&nbsp;</td></tr>
 						<tr><td><input type="submit" value="添加" /></td></tr>
+
+
+			<div class="span4">
+
+				<h1>分店查询商品信息</h1>
+				<br>
+				<p>token  : token</p>
+				<p>barcode : 商品名</p>
+				<form action="/store/sku/get" method="get" >
+					<table>
+						<tr><td>token</td><td><input type="text" name="token"/></td> </tr>
+						<tr><td>&nbsp;</td></tr>
+						<tr><td><input type="submit" value="查询" /></td></tr>
+					</table>
+				</form>
+			</div>
+		</section>
+		<section class="row">
+			<div class="span4">
+
+				<h1>分店修改价格</h1>
+				<br>
+				<form action="/store/price" method="post" >
+					<table>
+						<tr><td>token</td><td><input type="text" name="token"/></td> </tr>
+						<tr><td>barcode</td><td><input type="text" name="barcode"/></td> </tr>
+						<tr><td>price</td><td><input type="text" name="price"/></td> </tr>
+						<tr><td>&nbsp;</td></tr>
+						<tr><td><input type="submit" value="修改" /></td></tr>
+
 					</table>
 				</form>
 			</div>

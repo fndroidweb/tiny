@@ -581,3 +581,62 @@ exports.statusOfUpdate = (infos, cb) => {
 	cb
 	)
 }
+
+
+ /**
+  * 分店查询商品
+  */
+exports.getSkus = (infos, cb) => {
+	async.waterfall([
+		(_cb) => {
+ 			Store.findOne({store_id: infos.store_id}, (err, doc) => {
+ 				if(err){
+ 					_cb(500, err);
+ 				} else if (!doc) {
+ 					_cb(701);
+ 				} else {
+ 					_cb(null, doc.group);
+ 				}
+ 			});
+		},
+		(group_id, _cb) => {
+			Group.findOne({group_id}, (err, doc) => {
+ 				if(err){
+ 					_cb(500, err);
+ 				} else if (!doc) {
+ 					_cb(704);
+ 				} else {
+ 					_cb(null, doc.group_name);
+ 				}				
+			});
+		},
+		(group_name, _cb) => {
+			Bind.find({store_id: infos.store_id}, (err, docs) => {
+ 				if(err){
+ 					_cb(500, err);
+ 				} else {
+ 					_cb(null, docs, group_name);
+ 				}
+			});
+		},
+		(binds, group_name, _cb) => {
+			if (!binds.length) return _cb(null, []);
+			let barcodes = _.map(binds, 'barcode');
+			Sales.find({group_name: group_name, barcode : {$in: barcodes}}, (err, docs) => {
+				if(err){
+	 				_cb(500, err);
+	 			} else {
+	 				for (let i = 0; i < docs.length; i++) {
+	 					let index = barcodes.indexOf(docs[i].barcode);
+	 					if (binds[index].sale_price) {
+	 						docs[i].sale_price = binds[index].sale_price
+	 					}
+	 				}
+	 				_cb(null, docs);
+	 			}
+			});
+		}
+	],
+	cb
+	)
+}
