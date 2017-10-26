@@ -290,7 +290,7 @@
 				<p>cycle_time   : 周期(分钟)</p>
 				<p>price        : 价格</p>
 				<p>discount     : 折扣</p>
-				<form action="/esl/addscheme" method="post" >
+				<form action="/esl/scheme/add" method="post" >
 					<table>
 						<tr><td>token</td><td><input type="text" name="token"/></td> </tr>
 						<tr><td>name</td><td><input type="text" name="name"/></td> </tr>
@@ -339,11 +339,10 @@
 				</form>
 			</div>
 			<div class="span4">
-				<h1>分店查询商品信息</h1>
+				<h1>分店查询策略</h1>
 				<br>
 				<p>token  : token</p>
-				<p>barcode : 商品名</p>
-				<form action="/store/sku/get" method="get" >
+				<form action="/esl/scheme/get" method="get" >
 					<table>
 						<tr><td>token</td><td><input type="text" name="token"/></td> </tr>
 						<tr><td>&nbsp;</td></tr>
