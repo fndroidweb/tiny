@@ -299,6 +299,8 @@ layui.config({
 						alert("价格修改成功");
 					} else if(db.result_code==805){
 						alert("价格不能为空");
+					}else if(db.result_code==703){
+						alert("客户端连接断开");
 					}
 				}
 			});

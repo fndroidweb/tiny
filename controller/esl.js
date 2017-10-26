@@ -50,7 +50,7 @@ exports.getScheme = (infos, cb) => {
 						item.sku_type        = SKUTYPE[docs[i].sku_type];
 						item.scheme_type     = SHEMETYPE[docs[i].scheme_type];
 						item.scheme_name     = docs[i].scheme_name;
-						item.barcode         = docs[i].barcodes;
+						item.barcode         = docs[i].barcode;
 						item.category        = docs[i].category;
 						item.scheme_price    = docs[i].scheme_price;
 						item.scheme_discount = docs[i].scheme_discount; 
