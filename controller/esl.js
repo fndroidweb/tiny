@@ -42,12 +42,13 @@ exports.getScheme = (infos, cb) =>{
 				if (err) {
 					_cb(500);
 				} else {
-					let SKUTYPE = ['', '单个', '一类'];
+					let SKUTYPE = ['全部', '单个', '一类'];
 					let SHEMETYPE = ['', '时间点', '时间段', '时间周期', '保质期', '库存', '销量'];
 					for (let i = 0; i < docs.length; i++) {
 						docs[i].sku_type = SKUTYPE[docs[i].sku_type];
 						docs[i].scheme_type = SHEMETYPE[docs[i].scheme_type];
 					}
+					console.log(docs)
 					_cb(null, docs);
 				};
 			})
