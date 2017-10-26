@@ -263,7 +263,6 @@
 			</div>
 
 			<div class="span4">
-
 				<h1>查询商品信息</h1>
 				<br>
 				<p>token  : token</p>
@@ -281,41 +280,31 @@
 
 				<h1>添加策略</h1>
 				<br>
-				<p>scheme_name  : 策略名字</p>
+				<p>name         : 策略名字</p>
+				<p>sku_type     : 商品类型 0 全部 1 单个 2 类</p>
 				<p>barcode      : 商品码</p>
-				<p>store_type   : 商店类型</p>
-				<p>scheme_type  : 策略类型</p>
-				<p>scheme_sales : 策略价格</p>
-				<p>start_time   : 开始时间</p>
-				<p>end_time     : 结束时间</p>
-				<p>cycle_time   : 周期</p>
 				<p>category     : 分类</p>
+				<p>scheme_type  : 策略类型</p>
+				<p>start_time   : 开始时间(时间戳)</p>
+				<p>end_time     : 结束时间(时间戳)</p>
+				<p>cycle_time   : 周期(分钟)</p>
+				<p>price        : 价格</p>
+				<p>discount     : 折扣</p>
 				<form action="/esl/addscheme" method="post" >
 					<table>
-						<tr><td>scheme_name</td><td><input type="text" name="scheme_name"/></td> </tr>
-						<tr><td>store_type</td><td><input type="text" name="store_type"/></td> </tr>
+						<tr><td>token</td><td><input type="text" name="token"/></td> </tr>
+						<tr><td>name</td><td><input type="text" name="name"/></td> </tr>
+						<tr><td>sku_type</td><td><input type="text" name="sku_type"/></td> </tr>
+						<tr><td>category</td><td><input type="text" name="category"/></td> </tr>
+						<tr><td>barcode</td><td><input type="text" name="barcode"/></td> </tr>
 						<tr><td>scheme_type</td><td><input type="text" name="scheme_type"/></td> </tr>
-						<tr><td>scheme_sales</td><td><input type="text" name="scheme_sales"/></td> </tr>
 						<tr><td>start_time</td><td><input  type="number" name="start_time"/></td> </tr>
 						<tr><td>end_time</td><td><input   type="number" name="end_time"/></td> </tr>
 						<tr><td>cycle_time</td><td><input type="number" name="cycle_time"/></td> </tr>
-						<tr><td>category</td><td><input type="text" name="category"/></td> </tr>
-						<tr><td>barcode</td><td><input type="text" name="barcode"/></td> </tr>
+						<tr><td>price</td><td><input type="number" name="price"/></td> </tr>
+						<tr><td>discount</td><td><input type="number" name="discount"/></td> </tr>
 						<tr><td>&nbsp;</td></tr>
 						<tr><td><input type="submit" value="添加" /></td></tr>
-
-
-			<div class="span4">
-
-				<h1>分店查询商品信息</h1>
-				<br>
-				<p>token  : token</p>
-				<p>barcode : 商品名</p>
-				<form action="/store/sku/get" method="get" >
-					<table>
-						<tr><td>token</td><td><input type="text" name="token"/></td> </tr>
-						<tr><td>&nbsp;</td></tr>
-						<tr><td><input type="submit" value="查询" /></td></tr>
 					</table>
 				</form>
 			</div>
@@ -333,6 +322,32 @@
 						<tr><td>&nbsp;</td></tr>
 						<tr><td><input type="submit" value="修改" /></td></tr>
 
+					</table>
+				</form>
+			</div>
+			<div class="span4">
+				<h1>分店查询商品信息</h1>
+				<br>
+				<p>token  : token</p>
+				<p>barcode : 商品名</p>
+				<form action="/store/sku/get" method="get" >
+					<table>
+						<tr><td>token</td><td><input type="text" name="token"/></td> </tr>
+						<tr><td>&nbsp;</td></tr>
+						<tr><td><input type="submit" value="查询" /></td></tr>
+					</table>
+				</form>
+			</div>
+			<div class="span4">
+				<h1>分店查询商品信息</h1>
+				<br>
+				<p>token  : token</p>
+				<p>barcode : 商品名</p>
+				<form action="/store/sku/get" method="get" >
+					<table>
+						<tr><td>token</td><td><input type="text" name="token"/></td> </tr>
+						<tr><td>&nbsp;</td></tr>
+						<tr><td><input type="submit" value="查询" /></td></tr>
 					</table>
 				</form>
 			</div>

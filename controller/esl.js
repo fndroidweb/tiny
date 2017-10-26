@@ -19,22 +19,35 @@ const Status  = ['初始化','绑定','开始更新','正在更新','显示成�
 exports.addScheme = (infos, cb) =>{
 	async.waterfall([
 		(_cb) =>{
-			Scheme.create(infos,(err,doc) =>{
+			Scheme.create(infos, (err, doc) => {
 				if (err) {
 					_cb(500);
-				}else if(!doc){
+				} else if(!doc) {
 					_cb(905);
-				}else{
+				} else {
 					_cb();
-
 				};
-
 			})
-			
 		}
-		],
-		cb
-		)
+	],
+	cb
+	)
+}
+
+exports.getScheme = (infos, cb) =>{
+	async.waterfall([
+		(_cb) =>{
+			Scheme.find({store_id: infos.store_id}, (err, doc) => {
+				if (err) {
+					_cb(500);
+				} else {
+					_cb(null, doc);
+				};
+			})
+		}
+	],
+	cb
+	)
 }
 
 exports.searchSalesInfo = (infos, cb) =>{

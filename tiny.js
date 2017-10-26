@@ -69,7 +69,7 @@ app.get('/esl/sale/search'     , esl.searchSalesInfo);
 
 app.get('/esl/scheme/get'      , esl.getScheme);
 
-app.post('/esl/addscheme'      , esl.addScheme);
+app.post('/esl/scheme/add'     , esl.addScheme);
 
 
 

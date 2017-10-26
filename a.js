@@ -22,6 +22,4 @@
 // }
 
 
-(() => {
-	console.log('a')
-})()
+console.log(isNaN(''))

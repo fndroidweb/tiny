@@ -12,53 +12,106 @@ const log_sku    = require('../common/logger').sku;
 const ErrCode    = config.ErrCode; 
 const util       = require('../common/util');
 
+/**
+ *  添加策略
+ *  @params token       分店登陆验证
+ *  @params name        策略名
+ *  @params sku_type    商品类型 0 全部 1 单个 2 一类
+ *  @params barcode     单个 条形码
+ *  @params category    一类 类名
+ *  @params start_time  开始时间（时间戳）
+ *  @params end_time    结束时间（时间戳）
+ *  @params cycle_time  循环时间 (分钟) 
+ *  @params scheme_type 策略类型 
+ *  @params price       价格
+ *  @params discount    折扣 
+ */
 exports.addScheme = (request,response) =>{
 	let errCode = null;
 	let infos = {};
-	let group = session.getUser(request.body.token);
+	let store_id = session.getUser(request.body.token);
+	let SKUTYPE = ['全部', '单个', '一类'];
+	let SHEMETYPE = ['', '时间点', '时间段', '时间周期', '保质期', '库存', '销量'];
+	let reg = /^1\d{9}$/;
+	let testDate = (date) => {
+		if (date && reg.test(date)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	let testNumber = (number) => {
+		if (number && !isNaN(number)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	if (!store_id) {
+		errCode = 607;
+	} else if (!request.body.name) {
+		errCode = 901;
+	} else if ( !testNumber(request.body.scheme_type) || !SHEMETYPE[+request.body.scheme_type]) {
+		errCode = 903;
+	} 
+	infos.store_id    = store_id;
+	infos.scheme_name = request.body.name;
+	infos.scheme_type = +request.body.scheme_type;
+	if (infos.scheme_type == 1) {
+		if (testDate(request.body.start_time)) {
+			infos.start_time = new Date(+request.body.start_time);
+		} else {
+			errCode = 906;
+		}
+	} else if(infos.scheme_type == 2) {
+		if (testDate(request.body.start_time) && testDate(request.body.end_time)) {
+			infos.start_time = new Date(+request.body.start_time);
+			infos.end_time = new Date(+request.body.end_time);
+		} else {
+			errCode = 907;
+		}
+	} else if(infos.scheme_type == 3){
+		if (testDate(request.body.start_time) && testDate(request.body.end_time) && testNumber(request.body.cycle_time)){
+			infos.start_time = new Date(+request.body.start_time);
+			infos.end_time   = new Date(+request.body.end_time);
+			infos.cycle_time = +request.body.cycle_time;
+		} else {
+			errCode = 908;
+		}	
+	}
+
+	if (testNumber(request.body.sku_type) && SKUTYPE[+request.body.sku_type]) {
+		infos.sku_type = +request.body.sku_type;
+		if (infos.sku_type == 1 && request.body.barcode) {
+			infos.barcode = request.body.barcode;
+		} else {
+			errCode = 803;
+		}
+		if (infos.sku_type == 2 && request.body.category) {
+			infos.category = request.body.category;
+		} else {
+			errCode = 904;
+		}
+	} else {
+		infos.sku_type = 0;
+	}
+
+	if (testNumber(request.body.price)) {
+		infos.scheme_price = request.body.price;
+	} else if (testNumber(request.body.discount) && +request.body.discount < 1) {
+		infos.scheme_discount = +request.body.discount;
+	} else {
+		errCode = 805;
+	}
+
 	if(errCode){
 		response.status(200).send({
 			result_code : errCode,
 			result_msg  : ErrCode[errCode]
-
 		});
 		return;
 	};
-	if (!group) {
-		errCode = 607;
-	} else if (!request.body.scheme_price || isNaN(request.body.scheme_price)) {
-		errCode = 805;
-	} else if(!request.body.scheme_name){
-		errCode = 901;
-	}else if(!request.body.store_type){
-		errCode = 902;
-	}else if(!request.body.scheme_type){
-		errCode = 903;
-	}else if(request.body.store_type ==="0" && !request.body.barcode){
-		errCode = 803;
-	}else if (request.body.store_type === "1" && !request.body.category) {
-		errCode = 904;
-	}else if(request.body.scheme_type === "0" && !request.body.start_time){
-		errCode = 906;
-	}else if(request.body.scheme_type === "1" && !(!request.body.start_time || !request.body.end_time) ){
-		errCode = 907;
-	}else if(request.body.scheme_type === "2" && !(!request.body.start_time || !request.body.end_time || !request.body.cycle_time)){
-		errCode = 908;
-	};
-	
-
-
-	infos.scheme_name  = request.body.scheme_name;
-	infos.store_type   = request.body.store_type;
-	infos.scheme_type  = request.body.scheme_type;
-	infos.scheme_sales = request.body.scheme_sales;
-	infos.scheme_price = request.body.scheme_price;
-	infos.start_time   = new Date(request.body.start_time);
-	infos.end_time     = new Date(request.body.end_time);
-	infos.cycle_time   = new Date(request.body.cycle_time);
-	infos.barcode      = request.body.barcode;
-	infos.category     = request.body.category;
-
 
 	esl.addScheme(infos, (err, data) => {
 		if(err){
@@ -73,12 +126,14 @@ exports.addScheme = (request,response) =>{
 			});
 		}
 	});
-
 }
 
 exports.getScheme = (request,response) =>{
 	let errCode = null;
-	let group = session.getUser(request.body.token);	
+	let store_id = session.getUser(request.query.token);	
+	if (!store_id) {
+		errCode = 607;
+	} 
 	if (errCode) {
 		response.status(200).send({
 			result_code : errCode,
@@ -86,10 +141,19 @@ exports.getScheme = (request,response) =>{
 		});
 		return;
 	};
-
-	response.status(200).send({
-		result_code : 200,
-		result_msg  : ['scheme_name', 'scheme_type', 'scheme_sales', 'scheme_price']				
+	infos.store_id = store_id;
+	esl.getScheme(infos, (err, data) => {
+		if(err){
+			response.status(200).send({
+				result_code : err,
+				result_msg  : ErrCode[err]
+			});
+		} else {
+			response.status(200).send({
+				result_code : 200,
+				result_msg  : data	
+			});
+		}
 	});
 }
 
