@@ -30,7 +30,8 @@ exports.addScheme = (request,response) =>{
 	let errCode = null;
 	let infos = {};
 	let store_id = session.getUser(request.body.token);
-	let SKUTYPE = ['全部', '单个', '一类'];
+	log_sku.info('add scheme start', request.body);
+	let SKUTYPE = ['', '单个', '一类'];
 	let SHEMETYPE = ['', '时间点', '时间段', '时间周期', '保质期', '库存', '销量'];
 	let reg = /^1\d{9}$/;
 	let testDate = (date) => {
@@ -85,10 +86,7 @@ exports.addScheme = (request,response) =>{
 		infos.sku_type = +request.body.sku_type;
 		if (infos.sku_type == 1 && request.body.barcode) {
 			infos.barcode = request.body.barcode;
-		} else {
-			errCode = 803;
-		}
-		if (infos.sku_type == 2 && request.body.category) {
+		} else if (infos.sku_type == 2 && request.body.category) {
 			infos.category = request.body.category;
 		} else {
 			errCode = 904;

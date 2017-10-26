@@ -22,4 +22,4 @@
 // }
 
 
-console.log(isNaN(''))
+console.log(new Date().getTime())

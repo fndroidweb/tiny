@@ -47,7 +47,7 @@ module.exports = {
         901 : 'scheme_price need to be sent',
         902 : 'store_type need to be sent',
         903 : 'scheme_type need to be sent',
-        904 : 'category need to be sent',
+        904 : 'category or barcode need to be sent',
         905 : 'save sheme failed'
     }
 }
