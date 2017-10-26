@@ -35,7 +35,7 @@ exports.addScheme = (infos, cb) =>{
 	)
 }
 
-exports.getScheme = (infos, cb) =>{
+exports.getScheme = (infos, cb) => {
 	async.waterfall([
 		(_cb) =>{
 			Scheme.find({store_id: infos.store_id}, (err, docs) => {
@@ -44,12 +44,22 @@ exports.getScheme = (infos, cb) =>{
 				} else {
 					let SKUTYPE = ['全部', '单个', '一类'];
 					let SHEMETYPE = ['', '时间点', '时间段', '时间周期', '保质期', '库存', '销量'];
+					let list = [];
 					for (let i = 0; i < docs.length; i++) {
-						docs[i].sku_type = SKUTYPE[docs[i].sku_type];
-						docs[i].scheme_type = SHEMETYPE[docs[i].scheme_type];
+						let item = {};
+						item.sku_type        = SKUTYPE[docs[i].sku_type];
+						item.scheme_type     = SHEMETYPE[docs[i].scheme_type];
+						item.scheme_name     = docs[i].scheme_name;
+						item.barcode         = docs[i].barcodes;
+						item.category        = docs[i].category;
+						item.scheme_price    = docs[i].scheme_price;
+						item.scheme_discount = docs[i].scheme_discount; 
+						item.start_time      = docs[i].start_time;
+						item.end_time        = docs[i].end_time;
+						item.cycle_time      = docs[i].cycle_time;
+						list.push(item);
 					}
-					console.log(docs)
-					_cb(null, docs);
+					_cb(null, list);
 				};
 			})
 		}
