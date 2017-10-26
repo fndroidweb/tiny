@@ -128,6 +128,7 @@ exports.addScheme = (request,response) =>{
 
 exports.getScheme = (request,response) =>{
 	let errCode = null;
+	let infos = {};
 	let store_id = session.getUser(request.query.token);	
 	if (!store_id) {
 		errCode = 607;
