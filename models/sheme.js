@@ -17,10 +17,6 @@ let schema = new Schema({
 	start_time       : {type : Date},    //价格生效开始时间
 	end_time         : {type : Date},    //价格生效结束时间
 	cycle_time       : {type : Number}   //周期时间
-
-
-
-	
 }, {collection: 'scheme_info', timestamps: true});
 
 module.exports = mongoose.model('scheme', schema);

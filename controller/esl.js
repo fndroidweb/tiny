@@ -19,6 +19,7 @@ const Status  = ['初始化','绑定','开始更新','正在更新','显示成�
 exports.addScheme = (infos, cb) =>{
 	async.waterfall([
 		(_cb) =>{
+			console.log(infos)
 			Scheme.create(infos, (err, doc) => {
 				if (err) {
 					_cb(500);
