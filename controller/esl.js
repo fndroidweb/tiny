@@ -38,11 +38,17 @@ exports.addScheme = (infos, cb) =>{
 exports.getScheme = (infos, cb) =>{
 	async.waterfall([
 		(_cb) =>{
-			Scheme.find({store_id: infos.store_id}, (err, doc) => {
+			Scheme.find({store_id: infos.store_id}, (err, docs) => {
 				if (err) {
 					_cb(500);
 				} else {
-					_cb(null, doc);
+					let SKUTYPE = ['', '单个', '一类'];
+					let SHEMETYPE = ['', '时间点', '时间段', '时间周期', '保质期', '库存', '销量'];
+					for (let i = 0; i < docs.length; i++) {
+						docs[i].sku_type = SKUTYPE[docs[i].sku_type];
+						docs[i].scheme_type = SHEMETYPE[docs[i].scheme_type];
+					}
+					_cb(null, docs);
 				};
 			})
 		}
