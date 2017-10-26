@@ -61,21 +61,21 @@ exports.addScheme = (request,response) =>{
 	infos.scheme_type = +request.body.scheme_type;
 	if (infos.scheme_type == 1) {
 		if (testDate(request.body.start_time)) {
-			infos.start_time = new Date(+request.body.start_time);
+			infos.start_time = new Date(+request.body.start_time*1000);
 		} else {
 			errCode = 906;
 		}
 	} else if(infos.scheme_type == 2) {
 		if (testDate(request.body.start_time) && testDate(request.body.end_time)) {
-			infos.start_time = new Date(+request.body.start_time);
-			infos.end_time = new Date(+request.body.end_time);
+			infos.start_time = new Date(+request.body.start_time*1000);
+			infos.end_time = new Date(+request.body.end_time*1000);
 		} else {
 			errCode = 907;
 		}
 	} else if(infos.scheme_type == 3){
 		if (testDate(request.body.start_time) && testDate(request.body.end_time) && testNumber(request.body.cycle_time)){
-			infos.start_time = new Date(+request.body.start_time);
-			infos.end_time   = new Date(+request.body.end_time);
+			infos.start_time = new Date(+request.body.start_time*1000);
+			infos.end_time   = new Date(+request.body.end_time*1000);
 			infos.cycle_time = +request.body.cycle_time;
 		} else {
 			errCode = 908;

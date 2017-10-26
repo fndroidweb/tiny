@@ -48,6 +48,9 @@ module.exports = {
         902 : 'store_type need to be sent',
         903 : 'scheme_type need to be sent',
         904 : 'category or barcode need to be sent',
-        905 : 'save sheme failed'
+        905 : 'save sheme failed',
+        906 : 'start_time need to be sent',
+        907 : 'end_time need to be sent',
+        908 : 'cycle_time need to be sent'
     }
 }
