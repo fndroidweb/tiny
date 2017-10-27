@@ -5,6 +5,7 @@ const _        = require('lodash');
 const async    = require('async');
 const log_sku  = require('../common/logger').sku;
 const Scheme   = require('../models/scheme');
+const Group    = require('../models/group');
 const Store    = require('../models/store');
 const Sales    = require('../models/sales');
 require('date-utils');
@@ -16,30 +17,48 @@ let doUpdate = (stores, scheme, flag, cb) => {
 	let store_ids = _.map(stores, 'store_id');
 	let index = store_ids.indexOf(scheme.store_id);
 	let store = stores[index];
-	let condition = {store_id: scheme.store_id};
-	if (scheme.barcode) {
-		condition.barcode = scheme.barcode;
-	} else {
-		condition.category = scheme.category;
-	}
-	Sales.find(condition, (err, docs) => {
-		if (err) {
-			cb(err)
-		} else if (!docs.length) {
-			log_sku.error('no sku finds', scheme.scheme_name);
-			cb();
-		} else {
-			for (let i = 0; i < docs.length; i++) {
-				if (scheme.scheme_price) {
-					docs[i].sale_price = scheme.scheme_price;
+	async.waterfall([
+		(_cb) => {
+			Group.findOne({group_id: store.group}, (err, doc) => {
+				if (err) {
+					_cb(err);
+				} else if (!doc) {
+					_cb();
 				} else {
-					docs[i].sale_price = (scheme.discount * docs[i].sale_price).toFixed(2);
+					_cb(null, doc.group_name);
 				}
+			})
+		},
+		(group_name, _cb) => {
+			let condition = {group_name};
+			if (scheme.barcode) {
+				condition.barcode = scheme.barcode;
+			} else {
+				condition.category = scheme.category;
 			}
-			log_sku.info('end scheme',docs);
-			cb();
+			Sales.find(condition, (err, docs) => {
+				if (err) {
+					cb(err)
+				} else if (!docs.length) {
+					log_sku.error('no sku finds', scheme.scheme_name);
+					cb();
+				} else {
+					for (let i = 0; i < docs.length; i++) {
+						if (scheme.scheme_price) {
+							docs[i].sale_price = scheme.scheme_price;
+						} else {
+							docs[i].sale_price = (scheme.discount * docs[i].sale_price).toFixed(2);
+						}
+					}
+					log_sku.info('end scheme',docs);
+					cb();
+				}
+			});
 		}
-	});
+	],
+	cb
+	)
+
 }
  
 // let j = schedule.scheduleJob(rule, function(){
