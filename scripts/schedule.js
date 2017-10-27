@@ -43,12 +43,14 @@ let doUpdate = (stores, scheme, flag, cb) => {
 					log_sku.error('no sku finds', scheme.scheme_name);
 					cb();
 				} else {
-					for (let i = 0; i < docs.length; i++) {
-						if (scheme.scheme_price) {
-							docs[i].sale_price = scheme.scheme_price;
-						} else {
-							docs[i].sale_price = (scheme.discount * docs[i].sale_price).toFixed(2);
-						}
+					if (flag) {
+						for (let i = 0; i < docs.length; i++) {
+							if (scheme.scheme_price) {
+								docs[i].sale_price = scheme.scheme_price;
+							} else {
+								docs[i].sale_price = (scheme.discount * docs[i].sale_price).toFixed(2);
+							}
+						}						
 					}
 					log_sku.info('end scheme',docs);
 					cb();
@@ -100,6 +102,15 @@ let doUpdate = (stores, scheme, flag, cb) => {
         					_cb();
         				}
         				break;
+        			case 2:
+        				if (!scheme.start_time || !scheme.end_time) return _cb();
+        				if (scheme.start_time.between(new Date().addMinutes(-1), new Date())) {
+        					doUpdate(stores, scheme, true, _cb);
+        				} else if (scheme.end_time.between(new Date().addMinutes(-1), new Date())) {
+        					doUpdate(stores, scheme, false, _cb);
+        				} else {
+        					_cb();
+        				}
         			default:
         				_cb();
         		}
@@ -117,4 +128,4 @@ let doUpdate = (stores, scheme, flag, cb) => {
 		log_sku.info('success');
 	})
 
-TCP.updateESL(store, [sku], req_id, __cb);
+//TCP.updateESL(store, [sku], req_id, __cb);
