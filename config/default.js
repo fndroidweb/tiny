@@ -44,13 +44,14 @@ module.exports = {
         803 : 'sku need to be sent',
         804 : 'store id need to be sent',
         805 : 'price need to be sent',
-        901 : 'scheme_price need to be sent',
+        901 : 'scheme_name need to be sent',
         902 : 'store_type need to be sent',
         903 : 'scheme_type need to be sent',
         904 : 'category or barcode need to be sent',
-        905 : 'save sheme failed',
+        905 : 'save scheme failed',
         906 : 'start_time need to be sent',
         907 : 'end_time need to be sent',
-        908 : 'cycle_time need to be sent'
+        908 : 'cycle_time need to be sent',
+        909 : 'scheme no not exist'
     }
 }

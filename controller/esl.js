@@ -34,6 +34,34 @@ exports.addScheme = (infos, cb) =>{
 	)
 }
 
+
+exports.deleteScheme = (infos, cb) =>{
+	async.waterfall([
+		(_cb) => { 
+			Scheme.findOne(infos, (err, doc) => {
+				if (err) {
+					_cb(500);
+				} else if(!doc) {
+					_cb(909);
+				} else {
+					_cb();
+				};
+			})
+		},
+		(_cb) => {
+			Scheme.remove(infos, (err) => {
+				if (err) {
+					_cb(500);
+				} else {
+					_cb();
+				}
+			});
+		}
+	],
+	cb
+	)
+}
+
 exports.getScheme = (infos, cb) => {
 	async.waterfall([
 		(_cb) =>{

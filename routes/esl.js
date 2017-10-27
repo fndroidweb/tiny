@@ -156,6 +156,37 @@ exports.getScheme = (request,response) =>{
 	});
 }
 
+exports.deleteScheme = (request,response) =>{
+	let errCode = null;
+	let infos = {};
+	let store_id = session.getUser(request.body.token);	
+	if (!store_id) {
+		errCode = 607;
+	} else if (!request.body.name)
+	if (errCode) {
+		response.status(200).send({
+			result_code : errCode,
+			result_msg  : ErrCode[errCode]
+		});
+		return;
+	};
+	infos.store_id = store_id;
+	infos.scheme_name = request.body.name;
+	esl.deleteScheme(infos, (err, data) => {
+		if(err){
+			response.status(200).send({
+				result_code : err,
+				result_msg  : ErrCode[err]
+			});
+		} else {
+			response.status(200).send({
+				result_code : 200,
+				result_msg  : 'delte scheme successfully'	
+			});
+		}
+	});
+}
+
 exports.searchSalesInfo = (request,response) =>{
 	let errCode = null;
 	let infos = {};
