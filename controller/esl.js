@@ -53,9 +53,9 @@ exports.getScheme = (infos, cb) => {
 						item.category        = docs[i].category;
 						item.scheme_price    = docs[i].scheme_price;
 						item.scheme_discount = docs[i].scheme_discount; 
-						item.start_time      = docs[i].start_time;
-						item.end_time        = docs[i].end_time;
-						item.cycle_time      = docs[i].cycle_time;
+						item.start_time      = docs[i].start_time ? docs[i].start_time.toFormat("YYYY-MM-DD HH24:MI:SS") : undefined;
+						item.end_time        = docs[i].end_time ? docs[i].end_time.toFormat("YYYY-MM-DD HH24:MI:SS"): undefined;
+						item.cycle_time      = docs[i].cycle_time ? docs[i].cycle_time.toFormat("YYYY-MM-DD HH24:MI:SS"): undefined;
 						list.push(item);
 					}
 					_cb(null, list);

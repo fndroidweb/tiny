@@ -48,7 +48,7 @@ let doUpdate = (stores, scheme, flag, cb) => {
 							if (scheme.scheme_price) {
 								docs[i].sale_price = scheme.scheme_price;
 							} else {
-								docs[i].sale_price = (scheme.discount * docs[i].sale_price).toFixed(2);
+								docs[i].sale_price = (scheme.scheme_discount * docs[i].sale_price).toFixed(2);
 							}
 						}						
 					}
@@ -111,6 +111,7 @@ let doUpdate = (stores, scheme, flag, cb) => {
         				} else {
         					_cb();
         				}
+        				break;
         			default:
         				_cb();
         		}
