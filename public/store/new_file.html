@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+      	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+		<title>Document</title>
+	</head>
+
+	<body>
+		<label><input name="pro" type="checkbox" value="单个商品" id="onepro"/>单个商品 </label>
+		<script src="js/jquery-2.1.1.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			$(function(){
+			 if($("#onepro").is(":checked")){
+			 	alert(1);
+			 }else{
+			 	alert(2);
+			 }
+			})
+		</script>
+	</body>
+
+</html>

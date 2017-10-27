@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>添加门店</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="format-detection" content="telephone=no">
+		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="css/project.css" />
+		<link rel="stylesheet" type="text/css" href="css/shijian.css"/>
+	</head>
+
+	<body class="childrenBody">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="project">
+						<div class="project_name">方案名称:</div>
+						<div class="pro_name">
+							<input type="text" id="project_name" placeholder="请输入方案名称">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-1">
+					<div class="product_find">商品类型:</div>
+				</div>
+				<div class="col-md-2">
+					<div class="choose_pro">
+						<label><input name="pro" type="radio" value="单个商品" id="onepro"/>单个商品 </label>
+						<label><input name="pro" type="radio" value="一类商品" />一类商品 </label>
+						<label><input name="pro" type="radio" value="全部商品" />全部商品 </label>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="display_pro">
+						<div class="barcode" style="display: none;">
+							<span>barcode：</span>
+							<input type="text" name="" id="probarcode" value="" placeholder="请输入商品的barcode" />
+							<a href="#" class="check_pro">查看信息</a>
+							<p>
+								<span class="proname"></span>
+								<span class="proprice"></span>
+							</p>
+						</div>
+						<div class="category" style="display: none;">
+							<span>商品分类：</span>
+							<select name="" id="category_style">
+								<option value="">1</option>
+								<option value="">2</option>
+								<option value="">3</option>
+								<option value="">4</option>
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-1">
+					<div class="product_find">方案类型:</div>
+				</div>
+				<div class="col-md-2">
+					<div class="choosePro">
+						<label><input name="project" type="radio" value="时间点方案" />时间点方案 </label>
+						<label><input name="project" type="radio" value="时间段方案" />时间段方案 </label>
+						<label><input name="project" type="radio" value="时间周期方案" />时间周期方案 </label>
+						<label><input name="project" type="radio" value="保质期方案" />保质期方案</label>
+						<label><input name="project" type="radio" value="库存方案" />库存方案 </label>
+						<label><input name="project" type="radio" value="销量方案" />销量方案 </label>
+					</div>
+				</div>
+				<div class="col-md-7">
+					<div class="pro_detail">
+						<div class="stimes_tart_end" style="display: none;">
+							<label for="">
+								开始时间：<input type="text" name="" id="start-time" value="" />
+								结束时间：<input type="text" name="" id="endtime" value="" />
+							</label>
+						</div>
+						<div class="stimes_tart" style="display: none;">
+							<label for="">
+							开始时间：<input type="text" name="" id="startTime" value="" />
+							</label>
+						</div>
+						<div class="Stimes_tart" style="display: none;">
+							<label for="">
+								开始时间：<input type="text" name="" id="Start_time" value="" />
+								结束时间：<input type="text" name="" id="end_time" value="" />
+								时间周期：<input type="text" name="" id="cycletime" value="" placeholder="请输入时间周期"/>
+							</label>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-1">
+					<div class="price_find">折扣类型:</div>
+				</div>
+				<div class="col-md-2">
+					<div class="choose_price">
+						<label><input name="pro" type="radio" value="折扣" />折扣 </label>
+						<label><input name="pro" type="radio" value="价格" />价格 </label>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="display_price">
+						<div class="price" style="display: none;">
+							<label for="">修改价格：<input type="number" id="proprice"/>元</label>
+						</div>
+						<div class="discount" style="display: none;">
+							<label for="">折扣：<input type="number" id="prodiscount"/></label>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<div class="add_btn">
+						<input type="button" id="" value="添加" class="btn btn-primary Addbtn" />
+						<input type="reset" id="" value="重置" class="btn btn-primary" style="margin-left: 20px;" />
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<script type="text/javascript" src="layui/layui.js"></script>
+		<script src="js/jquery-2.1.1.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="js/planadd.js"></script>
+		<script src="js/jquer_shijian.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			//默认点击显示
+			$("#start-time").shijian();
+			$("#endtime").shijian();
+			$("#startTime").shijian();
+			$("#Start_time").shijian();
+			$("#end_time").shijian();
+		</script>
+	</body>
+
+</html>

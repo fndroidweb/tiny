@@ -1,0 +1,87 @@
+*{
+	margin: 0px;
+	padding: 0px;
+}
+a:hover{
+	text-decoration: none;	
+}
+.project {
+	width: 100%;
+	height: 50px;
+}
+
+.project_name {
+	width: 100px;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	float: left;
+}
+
+.pro_name {
+	width: 100px;
+	float: left;
+}
+
+.product {
+	width: 100%;
+	height: 100px;
+	clear: both;
+}
+
+.product_find {
+	width: 100px;
+	height: 100px;
+	text-align: center;
+	line-height: 100px;
+	float: left;
+}
+
+.choose_pro,.choosePro {
+	float: left;
+	width: 100px;
+	height: 90px;
+	margin-top: 10px;
+	margin-left: 50px;
+}
+.display_pro {
+	width: 500px;
+	height: 100px;
+	float: left;
+	margin-left: 50px;
+}
+.barcode{
+	float: left;
+	margin-top: 10px;
+}
+.category{
+	float: left;
+}
+.pro_detail{
+	height: 200px;
+	float: left;
+	margin-top: 50px;
+	
+}
+.Project{
+	width: 100%;
+	height: 200px;
+}
+.timeset{
+	width: 30%;
+	height: 200px;
+	float: left;
+}
+.add_btn{
+	margin-top: 20px;
+}
+.proprice{
+	display: inline-block;
+	margin-left: 10px;
+	color: red;
+}
+.proname{
+	display: inline-block;
+	margin-left: 20px;
+	color: red;
+}
