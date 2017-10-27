@@ -14,6 +14,7 @@ const app            = express();
 const net            = require('net');
 const tcpServer      = net.createServer();
 const tcp            = require('./routes/tcp');
+require('./scripts/schedule');
 
 tcp.init(tcpServer);
 app.set('port', config.port);
