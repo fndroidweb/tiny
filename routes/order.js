@@ -7,6 +7,6 @@ const ErrCode   = config.ErrCode;
 /**
 * 分店价格修改
 */
-exports.changePrice = function(request,response){
+exports.callBack = function(request,response){
 	console.log(request.body, request.query);
 }
