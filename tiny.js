@@ -30,7 +30,11 @@ app.all('*', function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     next();
 });
-
+app.use('/wxCallback', middleware(initConfig).getNotify().done((message, req, res, next) => {
+	console.log('message')
+    //order.wxCallback(message);
+    //res.reply('SUCCESS');
+}));
 
 /*上传/更新 商品列表*/
 app.post('/esl/uploadexcell'   , esl.uploadExcell);
@@ -74,8 +78,6 @@ app.get('/esl/scheme/get'      , esl.getScheme);
 app.post('/esl/scheme/add'     , esl.addScheme);
 
 app.post('/esl/scheme/delete'  , esl.deleteScheme);
-
-app.post('/wxCallback'         , order.callBack);
 
 
 

@@ -21,4 +21,4 @@ for (let key of Object.keys(data).sort()) {
 }
 string +=  `key=${partnerKey}`;
 let sign = crypto.createHash('md5').update(string).digest("hex").toUpperCase();
-console.log(`weixin：//wxpay/bizpayurl?sign=${sign}&appid=${appId}&mch_id=${mchId}&product_id=${productId}&time_stamp=${timeStamp}&nonce_str=${nonceStr}`)
+console.log(`weixin://wxpay/bizpayurl?sign=${sign}&appid=${appId}&mch_id=${mchId}&product_id=${productId}&time_stamp=${timeStamp}&nonce_str=${nonceStr}`)
