@@ -74,7 +74,7 @@ app.post('/esl/scheme/add'     , esl.addScheme);
 
 app.post('/esl/scheme/delete'  , esl.deleteScheme);
 
-
+app.post('/wxCallback'         , order.callBack);
 
 
 
