@@ -53,5 +53,11 @@ module.exports = {
         907 : 'end_time need to be sent',
         908 : 'cycle_time need to be sent',
         909 : 'scheme no not exist'
+    },
+    initConfig : {
+        partnerKey: "fndroidsx5708080123456789ABCDEFG",
+        appId: "wxf2641e2242fbfb4d",
+        mchId: "1481533452",
+        pfx: fs.readFileSync("apiclient_cert.p12")
     }
-}
+};

@@ -15,6 +15,8 @@ const app            = express();
 const net            = require('net');
 const tcpServer      = net.createServer();
 const tcp            = require('./routes/tcp');
+const middleware     = require('wechat-pay').middleware;
+const initConfig     = config.initConfig;
 require('./scripts/schedule');
 
 tcp.init(tcpServer);
