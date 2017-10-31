@@ -62,7 +62,7 @@ app.use('/wxCallback', middleware(initConfig).getNotify().done((message, req, re
 			    	console.log(payargs);
 			    	sendmessage.appid = payargs.appId;
 			    	sendmessage.mch_id = '1481533452';
-			    	sendmessage.nonceStr = payargs.nonceStr;
+			    	sendmessage.nonce_str = payargs.nonceStr;
 			    	sendmessage.prepay_id = payargs.package.substring(10,40);
 			    	sendmessage.sign = payargs.paySign;
 
