@@ -35,9 +35,12 @@ app.all('*', function(req, res, next) {
 app.use('/wxCallback', middleware(initConfig).getNotify().done((message, req, res, next) => {
 	console.log("0");
 	console.log(message);
+  let now=new Date();    
+  let number = now.getSeconds()%10000000;
+  let out_trade = number.toString();
 	let order = {
 		body             : "丰灼商品",
- 		out_trade_no     : "20171111123456",
+ 		out_trade_no     : out_trade,
 		total_fee        : 1,
 		spbill_create_ip : "10.114.110.1",
 		trade_type       : 'NATIVE',

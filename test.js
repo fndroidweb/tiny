@@ -34,4 +34,8 @@ let payargs = { appId: 'wxf2641e2242fbfb4d',
   let payment = new Payment(initConfig);
   console.log(payment.buildXml(message));
 
+var now=new Date();    
+var number = now.getSeconds()%100000;
+console.log(number);
+
   
