@@ -34,6 +34,7 @@ app.all('*', function(req, res, next) {
     next();
 });
 app.use('/wxCallback', middleware(initConfig).getNotify().done((message, req, res, next) => {
+	console.log("00000000");
 	console.log(message);
 	let order = {
 		                  body             : "丰灼商品",
@@ -46,14 +47,19 @@ app.use('/wxCallback', middleware(initConfig).getNotify().done((message, req, re
 	let payment = new Payment(initConfig);
 	payment.getBrandWCPayRequestParams(order, (err, trade_type,prepay_id) => {
 			    if (err) {
+			    	console.log("1111");
 			    	console.log(err);
 			    } else {
+			    	console.log("222222");
+
+
+
 			    	console.log(trade_type);
 			    	console.log(prepay_id);
 			    }
 			});
-    //order.wxCallback(message);
-    //res.reply('SUCCESS');
+    order.wxCallback(message);
+    res.reply('SUCCESS');
 }));
 
 /*上传/更新 商品列表*/
