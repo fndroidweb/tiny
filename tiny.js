@@ -33,7 +33,7 @@ app.all('*', function(req, res, next) {
     next();
 });
 app.use('/wxCallback', middleware(initConfig).getNotify().done((message, req, res, next) => {
-	
+	console.log("0");
 	let order = {
 		                  body             : "丰灼商品",
 						  out_trade_no     : "20171111123456",
@@ -52,8 +52,7 @@ app.use('/wxCallback', middleware(initConfig).getNotify().done((message, req, re
    
 
   };
-  let payment = new Payment(initConfig);
-  console.log(payment.buildXml(message));
+  
 	payment.getBrandWCPayRequestParams(order, (err, payargs) => {
 			    if (err) {
 			    	console.log("1111");
@@ -72,7 +71,7 @@ app.use('/wxCallback', middleware(initConfig).getNotify().done((message, req, re
 			});
 	let xmlmessage = payment.buildXml(sendmessage);
     //order.wxCallback(message);
-   
+   console.log(xmlmessage);
     res.status(200).end(sendmessage);
 }));
 
