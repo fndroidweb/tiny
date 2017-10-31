@@ -9,7 +9,6 @@ const bodyParser     = require('body-parser');
 const methodOverride = require('method-override');
 const esl            = require('./routes/esl');
 const store          = require('./routes/store');
-const order          = require('./routes/order');
 const router         = express.Router();
 const app            = express();
 const net            = require('net');
@@ -42,8 +41,9 @@ app.use('/wxCallback', middleware(initConfig).getNotify().done((message, req, re
 						  total_fee        : 0.01,
 						  spbill_create_ip : "10.114.110.1",
 						  trade_type       : 'NATIVE',
-						  nottify_url      : 'http://tiny.fndroid.com/wxNotify' 
+						  notify_url      : 'http://tiny.fndroid.com/wxNotify' 
 	};
+	console.log("1111111");
 	let payment = new Payment(initConfig);
 	payment.getBrandWCPayRequestParams(order, (err, trade_type,prepay_id) => {
 			    if (err) {
@@ -59,6 +59,7 @@ app.use('/wxCallback', middleware(initConfig).getNotify().done((message, req, re
 			    }
 			});
     //order.wxCallback(message);
+    console.log("3333333");
     res.status(200).end('success');
 }));
 
