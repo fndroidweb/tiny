@@ -17,6 +17,7 @@ const tcpServer      = net.createServer();
 const tcp            = require('./routes/tcp');
 const middleware     = require('wechat-pay').middleware;
 const initConfig     = config.initConfig;
+const Payment     = require('wechat-pay').Payment;
 require('./scripts/schedule');
 
 tcp.init(tcpServer);
@@ -33,7 +34,24 @@ app.all('*', function(req, res, next) {
     next();
 });
 app.use('/wxCallback', middleware(initConfig).getNotify().done((message, req, res, next) => {
-	console.log('message')
+	console.log(message);
+	let order = {
+		                  body             : "丰灼商品",
+						  out_trade_no     : "20171111123456",
+						  total_fee        : 0.01,
+						  spbill_create_ip : "10.114.110.1",
+						  trade_type       : 'NATIVE',
+						  nottify_url      : 'http://tiny.fndroid.com/wxNotify' 
+	};
+	let payment = new Payment(initConfig);
+	payment.getBrandWCPayRequestParams(order, (err, trade_type,prepay_id) => {
+			    if (err) {
+			    	console.log(err);
+			    } else {
+			    	console.log(trade_type);
+			    	console.log(prepay_id);
+			    }
+			});
     //order.wxCallback(message);
     //res.reply('SUCCESS');
 }));
