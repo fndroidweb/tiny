@@ -33,8 +33,7 @@ app.all('*', function(req, res, next) {
     next();
 });
 app.use('/wxCallback', middleware(initConfig).getNotify().done((message, req, res, next) => {
-	console.log("00000000");
-	console.log(message);
+	
 	let order = {
 		                  body             : "丰灼商品",
 						  out_trade_no     : "20171111123456",
@@ -46,21 +45,35 @@ app.use('/wxCallback', middleware(initConfig).getNotify().done((message, req, re
 	};
 	console.log("1111111");
 	let payment = new Payment(initConfig);
+	let  sendmessage = {
+    return_code : 'SUCCESS',
+    mch_id      : '1481533452',
+    result_code : 'SUCCESS',
+   
+
+  };
+  let payment = new Payment(initConfig);
+  console.log(payment.buildXml(message));
 	payment.getBrandWCPayRequestParams(order, (err, payargs) => {
 			    if (err) {
 			    	console.log("1111");
 			    	console.log(err);
 			    } else {
 			    	console.log("222222");
-
+			    	sendmessage.appid = payargs.appId;
+			    	sendmessage.mch_id = '1481533452';
+			    	sendmessage.nonceStr = payargs.nonceStr;
+			    	sendmessage.prepay_id = payargs.package.substring(10,40);
+			    	sendmessage.sign = payargs.paySign;
 
 
 			    	console.log(payargs);
 			    }
 			});
+	let xmlmessage = payment.buildXml(sendmessage);
     //order.wxCallback(message);
-    console.log("3333333");
-    res.status(200).end('success');
+   
+    res.status(200).end(sendmessage);
 }));
 
 /*上传/更新 商品列表*/
