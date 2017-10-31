@@ -34,6 +34,7 @@ app.all('*', function(req, res, next) {
 });
 app.use('/wxCallback', middleware(initConfig).getNotify().done((message, req, res, next) => {
 	console.log("0");
+	console.log(message);
 	let order = {
 		                  body             : "丰灼商品",
 						  out_trade_no     : "20171111123456",
@@ -50,7 +51,6 @@ app.use('/wxCallback', middleware(initConfig).getNotify().done((message, req, re
     mch_id      : '1481533452',
     result_code : 'SUCCESS',
    
-
   };
   
 	payment.getBrandWCPayRequestParams(order, (err, payargs) => {
@@ -59,6 +59,7 @@ app.use('/wxCallback', middleware(initConfig).getNotify().done((message, req, re
 			    	console.log(err);
 			    } else {
 			    	console.log("222222");
+			    	console.log(payargs);
 			    	sendmessage.appid = payargs.appId;
 			    	sendmessage.mch_id = '1481533452';
 			    	sendmessage.nonceStr = payargs.nonceStr;
@@ -66,13 +67,14 @@ app.use('/wxCallback', middleware(initConfig).getNotify().done((message, req, re
 			    	sendmessage.sign = payargs.paySign;
 
 
-			    	console.log(payargs);
+			    	
+			    		let xmlmessage = payment.buildXml(sendmessage);
+			    		console.log(payargs);
+					   console.log(xmlmessage);
+					    res.status(200).end(xmlmessage);
 			    }
 			});
-	let xmlmessage = payment.buildXml(sendmessage);
-    //order.wxCallback(message);
-   console.log(xmlmessage);
-    res.status(200).end(sendmessage);
+
 }));
 
 /*上传/更新 商品列表*/
