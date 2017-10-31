@@ -71,7 +71,7 @@ app.use('/wxCallback', middleware(initConfig).getNotify().done((message, req, re
 			    		let xmlmessage = payment.buildXml(sendmessage);
 			    		console.log(payargs);
 					   console.log(xmlmessage);
-					    // res.status(200).end(xmlmessage);
+					    res.status(200).end(xmlmessage);
 			    }
 			});
 
