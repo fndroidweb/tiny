@@ -38,7 +38,7 @@ app.use('/wxCallback', middleware(initConfig).getNotify().done((message, req, re
 	let order = {
 		                  body             : "丰灼商品",
 						  out_trade_no     : "20171111123456",
-						  total_fee        : 0.01,
+						  total_fee        : 1,
 						  spbill_create_ip : "10.114.110.1",
 						  trade_type       : 'NATIVE',
 						  notify_url       : 'http://tiny.fndroid.com/wxNotify',
