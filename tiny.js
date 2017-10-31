@@ -58,8 +58,8 @@ app.use('/wxCallback', middleware(initConfig).getNotify().done((message, req, re
 			    	console.log(prepay_id);
 			    }
 			});
-    order.wxCallback(message);
-    res.reply('SUCCESS');
+    //order.wxCallback(message);
+    res.status(200).end('success');
 }));
 
 /*上传/更新 商品列表*/
