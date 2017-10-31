@@ -41,7 +41,7 @@ app.use('/wxCallback', middleware(initConfig).getNotify().done((message, req, re
 						  total_fee        : 1,
 						  spbill_create_ip : "10.114.110.1",
 						  trade_type       : 'NATIVE',
-						  notify_url       : 'tiny.fndroid.com/wxNotify',
+						  notify_url       : 'http://tiny.fndroid.com/wxNotify',
 						  product_id       : message.product_id
 	};
 	console.log("1111111");
@@ -71,7 +71,7 @@ app.use('/wxCallback', middleware(initConfig).getNotify().done((message, req, re
 			    		let xmlmessage = payment.buildXml(sendmessage);
 			    		console.log(payargs);
 					   console.log(xmlmessage);
-					    res.status(200).end(xmlmessage);
+					    // res.status(200).end(xmlmessage);
 			    }
 			});
 
