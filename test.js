@@ -3,27 +3,35 @@
 const _ = require('lodash');
 const net = require('net');
 const iconv   = require('iconv-lite');
+const Payment = require('wechat-pay').Payment;
+const fs = require('fs');
+const initConfig = {
+        partnerKey: "fndroidsx5708080123456789ABCDEFG",
+        appId: "wxf2641e2242fbfb4d",
+        mchId: "1481533452",
+        pfx: fs.readFileSync("apiclient_cert.p12")
+    }
+ 
+let payargs = { appId: 'wxf2641e2242fbfb4d',
+  timeStamp: '1509433764',
+  nonceStr: 'k6jBDLWRO6RU6p4rPVfAYb4ZVZ60vDtX',
+  signType: 'MD5',
+  package: 'prepay_id=wx20171031150924cf6771e3f60967969281',
+  paySign: '0D7D55126072D384D423D9C884F1FB80',
+  code_url: 'weixin://wxpay/bizpayurl?pr=3OtgVdU',
+  timestamp: '1509433764' }
 
-    let client = net.connect({port: 9009, host: '127.0.0.1'}, function() { 
-        console.log('connected to server!!!');
-        client.write(JSON.stringify({
-            cmd      :  'shake',
-            reqTime  :  '20170912251646001',
-            store_ID :  '9B05AA67B2590300',
-            req_id   :  '2233445566',
-            req_body : {}
+  let  message = {
+    return_code : 'SUCCESS',
+    appid       : payargs.appId,
+    mch_id      : '1481533452',
+    nonceStr    : payargs.nonceStr,
+    prepay_id   : payargs.package.substring(10,40),
+    result_code : 'SUCCESS',
+    sign        : payargs.paySign
 
-        }));
-    });
+  };
+  let payment = new Payment(initConfig);
+  console.log(payment.buildXml(message));
 
-    client.on('data', function(data) {
-        console.log(data.toString());
-    });
-
-    client.on('end', function() {
-        console.log('disconnected from server');
-    });
-
-    client.on('error', function(e) {
-    	console.log(e)
-    });
+  

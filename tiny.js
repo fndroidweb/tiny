@@ -16,7 +16,7 @@ const tcpServer      = net.createServer();
 const tcp            = require('./routes/tcp');
 const middleware     = require('wechat-pay').middleware;
 const initConfig     = config.initConfig;
-const Payment     = require('wechat-pay').Payment;
+const Payment        = require('wechat-pay').Payment;
 require('./scripts/schedule');
 
 tcp.init(tcpServer);
@@ -46,7 +46,7 @@ app.use('/wxCallback', middleware(initConfig).getNotify().done((message, req, re
 	};
 	console.log("1111111");
 	let payment = new Payment(initConfig);
-	payment.getBrandWCPayRequestParams(order, (err, trade_type,prepay_id) => {
+	payment.getBrandWCPayRequestParams(order, (err, payargs) => {
 			    if (err) {
 			    	console.log("1111");
 			    	console.log(err);
@@ -55,8 +55,7 @@ app.use('/wxCallback', middleware(initConfig).getNotify().done((message, req, re
 
 
 
-			    	console.log(trade_type);
-			    	console.log(prepay_id);
+			    	console.log(payargs);
 			    }
 			});
     //order.wxCallback(message);
