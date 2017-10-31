@@ -164,8 +164,8 @@ function updateESL(store, sku, req_id, cb) {
     for (let i = 0; i < sku.length; i++) {
         list.push({
             style_id       : "A",
-            led_red        : 0,
-            led_green      : 0,
+            led_red        : "0",
+            led_green      : "0",
             barcode        : sku[i].barcode,
             name           : sku[i].name, 
             specification  : sku[i].specification,
@@ -183,7 +183,7 @@ function updateESL(store, sku, req_id, cb) {
             madein         : sku[i].origin
         });
     }
-
+    console.log(CONNECTS)
     if (CONNECTS[`${store.ip}:${store.port}`]) {
         let num = 0;
         while(num < list.length) {

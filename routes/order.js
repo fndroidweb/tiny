@@ -8,5 +8,5 @@ const ErrCode   = config.ErrCode;
 * 分店价格修改
 */
 exports.callBack = function(request,response){
-	console.log(request.body, request.query);
+	console.log(request.body, request.query)
 }

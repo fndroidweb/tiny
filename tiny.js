@@ -36,26 +36,24 @@ app.use('/wxCallback', middleware(initConfig).getNotify().done((message, req, re
 	console.log("0");
 	console.log(message);
 	let order = {
-		                  body             : "丰灼商品",
-						  out_trade_no     : "20171111123456",
-						  total_fee        : 1,
-						  spbill_create_ip : "10.114.110.1",
-						  trade_type       : 'NATIVE',
-						  notify_url       : 'http://tiny.fndroid.com/wxNotify',
-						  product_id       : message.product_id
+		body             : "丰灼商品",
+ 		out_trade_no     : "20171111123456",
+		total_fee        : 1,
+		spbill_create_ip : "10.114.110.1",
+		trade_type       : 'NATIVE',
+		notify_url       : 'http://tiny.fndroid.com/wxNotify',
+		product_id       : message.product_id
 	};
-	console.log("1111111");
+	console.log(order);
 	let payment = new Payment(initConfig);
 	let  sendmessage = {
-    return_code : 'SUCCESS',
-    mch_id      : '1481533452',
-    result_code : 'SUCCESS',
-   
-  };
+   	 return_code : 'SUCCESS',
+   	 mch_id      : '1481533452',
+   	 result_code : 'SUCCESS',
+ 	};
   
 	payment.getBrandWCPayRequestParams(order, (err, payargs) => {
 			    if (err) {
-			    	console.log("1111");
 			    	console.log(err);
 			    } else {
 			    	console.log("222222");
@@ -63,15 +61,14 @@ app.use('/wxCallback', middleware(initConfig).getNotify().done((message, req, re
 			    	sendmessage.appid = payargs.appId;
 			    	sendmessage.mch_id = '1481533452';
 			    	sendmessage.nonce_str = payargs.nonceStr;
-			    	sendmessage.prepay_id = payargs.package.substring(10,40);
-			    	sendmessage.sign = payargs.paySign;
-
+			    	sendmessage.prepay_id = payargs.package.substring(10);
+				let sign = payment._getSign(sendmessage)
+				sendmessage.sign = sign
 
 			    	
 			    		let xmlmessage = payment.buildXml(sendmessage);
-			    		console.log(payargs);
 					   console.log(xmlmessage);
-					    // res.status(200).end(xmlmessage);
+					   res.status(200).send(xmlmessage);
 			    }
 			});
 

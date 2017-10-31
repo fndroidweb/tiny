@@ -148,8 +148,8 @@ exports.bind = (infos, ip, port, cb) => {
 		(sku, group, _cb) => {
 			let reqBody = {
 				style_id       : "A",
-	            led_red        : 0,
-	            led_green      : 0,
+	            led_red        : "0",
+	            led_green      : "0",
 	            barcode        : sku.barcode,
 	            name           : sku.name, 
 	            specification  : sku.specification,

@@ -14,10 +14,10 @@ require('date-utils');
 let rule = new schedule.RecurrenceRule();
 rule.second = 42;
 let doUpdate = (stores, scheme, flag, cb) => {
-	console.log('start scheme', scheme.scheme_name);
 	let store_ids = _.map(stores, 'store_id');
 	let index = store_ids.indexOf(scheme.store_id);
 	let store = stores[index];
+	console.log('start scheme', scheme.scheme_name, store.store_id);
 	async.waterfall([
 		(_cb) => {
 			Group.findOne({group_id: store.group}, (err, doc) => {

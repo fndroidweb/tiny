@@ -1,6 +1,6 @@
 'use strict';
 
-
+const fs = require('fs');
 module.exports = {
 	mongo: {
 		uri : 'mongodb://tiny:123456@106.14.214.43:27017/tiny'
