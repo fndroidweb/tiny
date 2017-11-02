@@ -246,7 +246,6 @@ layui.config({
 						'<td>' + currData[i].putstyle + '</td>' +
 						'<td>' + currData[i].locate_str + '</td>' +
 						'<td>' + currData[i].inner_code + '</td>' +
-						'<td>' + currData[i].qrcode + '</td>' +
 						'<td>' + currData[i].price_employee + '</td>' +
 						'<td>' + currData[i].supper_telphone + '</td>' +
 						'<td>' + currData[i].print_date + '</td>' +

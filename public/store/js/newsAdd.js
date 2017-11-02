@@ -111,9 +111,6 @@ layui.config({
 				if(typeof currData[i].promotion_end == 'object') {
 					currData[i].promotion_end = currData[i].promotion_end[0] + '→' + '<span style="color:red;">' + currData[i].promotion_end[1] + '</span>';
 				}
-				if(typeof currData[i].qrcode == 'object') {
-					currData[i].qrcode = currData[i].qrcode[0] + '→' + '<span style="color:red;">' + currData[i].qrcode[1] + '</span>';
-				}
 				if(typeof currData[i].price_employee == 'object') {
 					currData[i].price_employee = currData[i].price_employee[0] + '→' + '<span style="color:red;">' + currData[i].price_employee[1] + '</span>';
 				}
@@ -154,7 +151,6 @@ layui.config({
 					'<td>' + currData[i].inner_code + '</td>' +
 					'<td>' + currData[i].promotion_start + '</td>' +
 					'<td>' + currData[i].promotion_end + '</td>' +
-					'<td>' + currData[i].qrcode + '</td>' +
 					'<td>' + currData[i].price_employee + '</td>' +
 					'<td>' + currData[i].supper_telphone + '</td>' +
 					'<td>' + currData[i].print_date + '</td>' +
