@@ -3,6 +3,7 @@
 const fs         = require('fs');
 const _          = require('lodash');
 const async      = require('async');
+const config     = require('config');
 const util       = require('../common/util');
 const SKU        = require('../models/sales');
 const initConfig = config.initConfig;
@@ -18,7 +19,7 @@ exports.wxCallback = (infos, cb) =>{
 				} else if(!doc) {
 					_cb(702);
 				} else {
-					_cb(null, sku);
+					_cb(null, doc);
 				};
 			})
 		},

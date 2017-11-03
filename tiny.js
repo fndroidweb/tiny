@@ -38,6 +38,7 @@ app.use('/wxCallback', middleware(initConfig).getNotify().done((message, req, re
 		if(err) {
 			console.error(err);
 		} else {
+	            let payment = new Payment(initConfig);
 		    let xmlMessage = payment.buildXml(data);
 		    console.log(xmlMessage);
 			res.status(200).send(xmlMessage);
