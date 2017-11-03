@@ -12,7 +12,7 @@ const timeStamp = Math.round(new Date().getTime()/1000);
 
     async.waterfall([
         (_cb) => {
-            SKU.findOne({}, null, {lean:true}, (err, docs) => {
+            SKU.find({barcode:'6924743919211'}, null, {lean:true}, (err, docs) => {
                 if (err) {
                     _cb(err);
                 } else {
@@ -38,9 +38,7 @@ const timeStamp = Math.round(new Date().getTime()/1000);
                 string +=  `key=${partnerKey}`;
                 let sign = crypto.createHash('md5').update(string).digest("hex").toUpperCase();
                 let qrcode = `weixin://wxpay/bizpayurl?sign=${sign}&appid=${appId}&mch_id=${mchId}&product_id=${productId}&time_stamp=${timeStamp}&nonce_str=${nonceStr}`;
-                SKU.update({_id: sku._id}, {qrcode}, (err) => {
-                    //do nothing
-                })
+                SKU.update({_id: sku._id}, {qrcode}, __cb)
             }, _cb); 
         }
     ],

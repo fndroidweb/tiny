@@ -27,7 +27,7 @@ exports.wxCallback = (infos, cb) =>{
 		  	let order = {
 				body             : sku.name,
 		 		out_trade_no     : util.getID('trade'),
-				total_fee        : sku.sale_price * 100,
+				total_fee        : Math.round(sku.sale_price * 100),
 				spbill_create_ip : '106.14.0.16',
 				trade_type       : 'NATIVE',
 				notify_url       : 'http://tiny.fndroid.com/wxNotify',
