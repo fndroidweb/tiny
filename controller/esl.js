@@ -13,9 +13,99 @@ const Group   = require('../models/group');
 const Bind    = require('../models/bind');
 const Scheme  = require('../models/scheme');
 const Search  = require('../common/elasticsearch');
+const middleware     = require('wechat-pay').middleware;
+const initConfig     = config.initConfig;
+const Payment        = require('wechat-pay').Payment;
 const Status  = ['初始化','绑定','开始更新','正在更新','显示成功','显示失败']
 
 
+exports.wxCallback = (infos, cb) =>{
+
+  let  now = new Date();    
+  let number = now.getSeconds()%10000000;
+  let out_trade = number.toString();
+  let order = {
+		body             : "丰灼商品",
+ 		out_trade_no     : out_trade,
+		total_fee        : 1,
+		spbill_create_ip : "10.114.110.1",
+		trade_type       : 'NATIVE',
+		notify_url       : 'http://tiny.fndroid.com/wxNotify',
+		product_id       : "product_id"
+	};
+	async.waterfall([
+
+  
+
+	(_cb) => {
+			Sales.findOne(infos,(err,doc) =>{
+				if(err){
+					_cb(500);
+
+				}else{
+					_cb(null,doc);
+					order.total_fee = doc.sale_price;
+					order.body      = doc.name;
+				}
+
+			});
+
+		},
+	(_cb) =>{
+	 middleware(initConfig).getNotify().done((message, req, res, next) => {
+
+  	order.product_id = message.product_id;
+
+  
+	console.log(order);
+	let payment = new Payment(initConfig);
+	let  sendmessage = {
+   	 return_code : 'SUCCESS',
+   	 mch_id      : '1481533452',
+   	 result_code : 'SUCCESS',
+ 	};
+
+ 	payment.getBrandWCPayRequestParams(order, (err, payargs) => {
+			    if (err) {
+			    	console.log(err);
+			    } else {
+			    	
+			    console.log(payargs);
+			    sendmessage.appid = payargs.appId;
+			    sendmessage.mch_id = '1481533452';
+			    sendmessage.nonce_str = payargs.nonceStr;
+			    sendmessage.prepay_id = payargs.package.substring(10);
+				let sign = payment._getSign(sendmessage)
+				sendmessage.sign = sign
+
+			    	
+			    let xmlmessage = payment.buildXml(sendmessage);
+			    console.log(xmlmessage);
+				res.status(200).send(xmlmessage);
+			    }
+			});
+
+      }
+      );
+
+		}
+
+ 
+
+
+
+
+
+		],
+		cb
+		)
+
+
+
+
+
+
+}
 exports.addScheme = (infos, cb) =>{
 	async.waterfall([
 		(_cb) =>{

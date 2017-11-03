@@ -32,50 +32,51 @@ app.all('*', function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     next();
 });
-app.use('/wxCallback', middleware(initConfig).getNotify().done((message, req, res, next) => {
-	console.log("0");
-	console.log(message);
-  let now=new Date();    
-  let number = now.getSeconds()%10000000;
-  let out_trade = number.toString();
-	let order = {
-		body             : "丰灼商品",
- 		out_trade_no     : out_trade,
-		total_fee        : 1,
-		spbill_create_ip : "10.114.110.1",
-		trade_type       : 'NATIVE',
-		notify_url       : 'http://tiny.fndroid.com/wxNotify',
-		product_id       : message.product_id
-	};
-	console.log(order);
-	let payment = new Payment(initConfig);
-	let  sendmessage = {
-   	 return_code : 'SUCCESS',
-   	 mch_id      : '1481533452',
-   	 result_code : 'SUCCESS',
- 	};
+// app.use('/wxCallback', middleware(initConfig).getNotify().done((message, req, res, next) => {
+	
+// 	console.log(message);
+//   let now=new Date();    
+//   let number = now.getSeconds()%10000000;
+//   let out_trade = number.toString();
+// 	let order = {
+// 		body             : "丰灼商品",
+//  		out_trade_no     : out_trade,
+// 		total_fee        : 1,
+// 		spbill_create_ip : "10.114.110.1",
+// 		trade_type       : 'NATIVE',
+// 		notify_url       : 'http://tiny.fndroid.com/wxNotify',
+// 		product_id       : message.product_id
+// 	};
+// 	console.log(order);
+// 	let payment = new Payment(initConfig);
+// 	let  sendmessage = {
+//    	 return_code : 'SUCCESS',
+//    	 mch_id      : '1481533452',
+//    	 result_code : 'SUCCESS',
+//  	};
   
-	payment.getBrandWCPayRequestParams(order, (err, payargs) => {
-			    if (err) {
-			    	console.log(err);
-			    } else {
-			    	console.log("222222");
-			    	console.log(payargs);
-			    	sendmessage.appid = payargs.appId;
-			    	sendmessage.mch_id = '1481533452';
-			    	sendmessage.nonce_str = payargs.nonceStr;
-			    	sendmessage.prepay_id = payargs.package.substring(10);
-				let sign = payment._getSign(sendmessage)
-				sendmessage.sign = sign
+// 	payment.getBrandWCPayRequestParams(order, (err, payargs) => {
+// 			    if (err) {
+// 			    	console.log(err);
+// 			    } else {
+			    	
+// 			    console.log(payargs);
+// 			    sendmessage.appid = payargs.appId;
+// 			    sendmessage.mch_id = '1481533452';
+// 			    sendmessage.nonce_str = payargs.nonceStr;
+// 			    sendmessage.prepay_id = payargs.package.substring(10);
+// 				let sign = payment._getSign(sendmessage)
+// 				sendmessage.sign = sign
 
 			    	
-			    		let xmlmessage = payment.buildXml(sendmessage);
-					   console.log(xmlmessage);
-					   res.status(200).send(xmlmessage);
-			    }
-			});
+// 			    let xmlmessage = payment.buildXml(sendmessage);
+// 			    console.log(xmlmessage);
+// 				res.status(200).send(xmlmessage);
+// 			    }
+// 			});
 
-}));
+// }));
+app.use('/wxCallback'          , esl.wxCallback);
 
 /*上传/更新 商品列表*/
 app.post('/esl/uploadexcell'   , esl.uploadExcell);

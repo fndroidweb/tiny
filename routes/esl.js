@@ -11,6 +11,38 @@ const session    = require('../common/session');
 const log_sku    = require('../common/logger').sku;
 const ErrCode    = config.ErrCode; 
 const util       = require('../common/util');
+const middleware     = require('wechat-pay').middleware;
+const initConfig     = config.initConfig;
+const Payment        = require('wechat-pay').Payment;
+
+
+exports.wxCallback = (request,response) =>{
+	let errCode = null;
+	let infos = {};
+
+	esl.wxCallback(infos, (err, data) => {
+		if(err){
+			response.status(200).send({
+				result_code : err,
+				result_msg  : ErrCode[err]
+			});
+		} else {
+			response.status(200).send({
+				result_code : 200,
+				result_msg  : 'successfully'	
+			});
+		}
+	});
+
+
+
+
+
+
+
+
+
+}
 
 /**
  *  添加策略
