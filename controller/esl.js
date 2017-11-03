@@ -6,16 +6,15 @@ const async   = require('async');
 const SKU     = require('../models/sales');
 const Store   = require('../models/store');
 const TCP     = require('../routes/tcp');
+const Sales   = require('../models/sales');
 const util    = require('../common/util');
 const config  = require('../config/default');
 const Group   = require('../models/group');
 const Bind    = require('../models/bind');
 const Scheme  = require('../models/scheme');
 const Search  = require('../common/elasticsearch');
-const middleware     = require('wechat-pay').middleware;
-const initConfig     = config.initConfig;
-const Payment        = require('wechat-pay').Payment;
 const Status  = ['初始化','绑定','开始更新','正在更新','显示成功','显示失败']
+
 
 exports.addScheme = (infos, cb) =>{
 	async.waterfall([
@@ -201,7 +200,7 @@ exports.changePrice = (infos, cb) =>{
 exports.getMp4url = (infos,cb) =>{
 	async.waterfall([
 		(_cb) => {
-			SKU.findOne({ barcode :infos.barcode },(err,doc) =>{
+			Sales.findOne({ barcode :infos.barcode },(err,doc) =>{
 				if(err){
 					_cb(500,err);
 				}else{
@@ -219,7 +218,7 @@ exports.uploadMp4 = (infos,files,cb) =>{
 	async.waterfall([
 
         (_cb) => {
-            SKU.findOne({barcode :infos.barcode}, (err, doc) => {
+            Sales.findOne({barcode :infos.barcode}, (err, doc) => {
                 if (err) {
                     _cb(500, err);
                 } else {
@@ -273,7 +272,7 @@ exports.uploadMp4 = (infos,files,cb) =>{
             
         },(url,_cb) =>{
         	console.log(url);
-        	SKU.update({ barcode :infos.barcode },{ad_url :url},(err,doc) =>{
+        	Sales.update({ barcode :infos.barcode },{ad_url :url},(err,doc) =>{
         		if(err){
         			_cb(500,err);
         		}else{
@@ -337,7 +336,7 @@ exports.uploadExcell = (sales, group_id, cb) => {
 	        		return __cb(618);
 	        	}
 
-                SKU.findOne({group_name : sale[0], barcode: sale[1]}, (err, doc) => {
+                Sales.findOne({group_name : sale[0], barcode: sale[1]}, (err, doc) => {
                     if (err) {
                         return __cb(500, err);
                     }
@@ -380,14 +379,14 @@ exports.uploadExcell = (sales, group_id, cb) => {
                     		}
                     	});
                     	if (flag) {
-                    		SKU.update({group_name : sale[0], barcode: sale[1]}, sku, __cb);
+                    		Sales.update({group_name : sale[0], barcode: sale[1]}, sku, __cb);
                     		list.push(usku);
                     		diff.push(sku);
                     	} else {
                     		__cb();
                     	}
                     } else {
-			        	SKU.create(sku, __cb);
+			        	Sales.create(sku, __cb);
 			        	list.push(sku);
 			        }  
                 });
@@ -453,7 +452,7 @@ exports.uploadExcell = (sales, group_id, cb) => {
 exports.getallsales = (infos,cb) =>{
 	async.waterfall([
 		(_cb) => {
-			SKU.find({},function(err,doc){
+			Sales.find({},function(err,doc){
 				if(err){
 					_cb(500,"查询失败");
 
@@ -476,7 +475,7 @@ exports.getallsales = (infos,cb) =>{
 exports.addSales = (infos, cb) => {
 	async.waterfall([
 		(_cb) => {
-			SKU.findOne({name: infos.name}, (err, doc) => {
+			Sales.findOne({name: infos.name}, (err, doc) => {
 				if (err) {
 					_cb(501);
 				}else {
@@ -490,7 +489,7 @@ exports.addSales = (infos, cb) => {
 		},
 		(_cb) => {
 			
-			SKU.create(infos, (err, doc) => {
+			Sales.create(infos, (err, doc) => {
 				if(err){
 					console.log(err);
 					_cb(502,"数据类型不对");
@@ -615,7 +614,7 @@ exports.statusOfUpdate = (infos, cb) => {
 		(binds, stores, _cb) => {
 			let barcodes  = _.map(binds, 'barcode');
 			let list = [];
-			SKU.find({group_name: group_name, barcode: {$in: barcodes}}, (err, doc) => {
+			Sales.find({group_name: group_name, barcode: {$in: barcodes}}, (err, doc) => {
 				if (err) {
 					_cb(500)
 				} else {
@@ -681,7 +680,7 @@ exports.getSkus = (infos, cb) => {
 		(binds, group_name, _cb) => {
 			if (!binds.length) return _cb(null, []);
 			let barcodes = _.map(binds, 'barcode');
-			SKU.find({group_name: group_name, barcode : {$in: barcodes}}, (err, docs) => {
+			Sales.find({group_name: group_name, barcode : {$in: barcodes}}, (err, docs) => {
 				if(err){
 	 				_cb(500, err);
 	 			} else {
