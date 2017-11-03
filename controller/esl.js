@@ -6,7 +6,6 @@ const async   = require('async');
 const SKU     = require('../models/sales');
 const Store   = require('../models/store');
 const TCP     = require('../routes/tcp');
-const Sales   = require('../models/sales');
 const util    = require('../common/util');
 const config  = require('../config/default');
 const Group   = require('../models/group');
@@ -18,94 +17,6 @@ const initConfig     = config.initConfig;
 const Payment        = require('wechat-pay').Payment;
 const Status  = ['初始化','绑定','开始更新','正在更新','显示成功','显示失败']
 
-
-exports.wxCallback = (infos, cb) =>{
-
-  let  now = new Date();    
-  let number = now.getSeconds()%10000000;
-  let out_trade = number.toString();
-  let order = {
-		body             : "丰灼商品",
- 		out_trade_no     : out_trade,
-		total_fee        : 1,
-		spbill_create_ip : "10.114.110.1",
-		trade_type       : 'NATIVE',
-		notify_url       : 'http://tiny.fndroid.com/wxNotify',
-		product_id       : "product_id"
-	};
-	async.waterfall([
-
-  
-
-	(_cb) => {
-			Sales.findOne(infos,(err,doc) =>{
-				if(err){
-					_cb(500);
-
-				}else{
-					_cb(null,doc);
-					order.total_fee = doc.sale_price;
-					order.body      = doc.name;
-				}
-
-			});
-
-		},
-	(_cb) =>{
-	 middleware(initConfig).getNotify().done((message, req, res, next) => {
-
-  	order.product_id = message.product_id;
-
-  
-	console.log(order);
-	let payment = new Payment(initConfig);
-	let  sendmessage = {
-   	 return_code : 'SUCCESS',
-   	 mch_id      : '1481533452',
-   	 result_code : 'SUCCESS',
- 	};
-
- 	payment.getBrandWCPayRequestParams(order, (err, payargs) => {
-			    if (err) {
-			    	console.log(err);
-			    } else {
-			    	
-			    console.log(payargs);
-			    sendmessage.appid = payargs.appId;
-			    sendmessage.mch_id = '1481533452';
-			    sendmessage.nonce_str = payargs.nonceStr;
-			    sendmessage.prepay_id = payargs.package.substring(10);
-				let sign = payment._getSign(sendmessage)
-				sendmessage.sign = sign
-
-			    	
-			    let xmlmessage = payment.buildXml(sendmessage);
-			    console.log(xmlmessage);
-				res.status(200).send(xmlmessage);
-			    }
-			});
-
-      }
-      );
-
-		}
-
- 
-
-
-
-
-
-		],
-		cb
-		)
-
-
-
-
-
-
-}
 exports.addScheme = (infos, cb) =>{
 	async.waterfall([
 		(_cb) =>{
@@ -290,7 +201,7 @@ exports.changePrice = (infos, cb) =>{
 exports.getMp4url = (infos,cb) =>{
 	async.waterfall([
 		(_cb) => {
-			Sales.findOne({ barcode :infos.barcode },(err,doc) =>{
+			SKU.findOne({ barcode :infos.barcode },(err,doc) =>{
 				if(err){
 					_cb(500,err);
 				}else{
@@ -308,7 +219,7 @@ exports.uploadMp4 = (infos,files,cb) =>{
 	async.waterfall([
 
         (_cb) => {
-            Sales.findOne({barcode :infos.barcode}, (err, doc) => {
+            SKU.findOne({barcode :infos.barcode}, (err, doc) => {
                 if (err) {
                     _cb(500, err);
                 } else {
@@ -362,7 +273,7 @@ exports.uploadMp4 = (infos,files,cb) =>{
             
         },(url,_cb) =>{
         	console.log(url);
-        	Sales.update({ barcode :infos.barcode },{ad_url :url},(err,doc) =>{
+        	SKU.update({ barcode :infos.barcode },{ad_url :url},(err,doc) =>{
         		if(err){
         			_cb(500,err);
         		}else{
@@ -426,7 +337,7 @@ exports.uploadExcell = (sales, group_id, cb) => {
 	        		return __cb(618);
 	        	}
 
-                Sales.findOne({group_name : sale[0], barcode: sale[1]}, (err, doc) => {
+                SKU.findOne({group_name : sale[0], barcode: sale[1]}, (err, doc) => {
                     if (err) {
                         return __cb(500, err);
                     }
@@ -469,14 +380,14 @@ exports.uploadExcell = (sales, group_id, cb) => {
                     		}
                     	});
                     	if (flag) {
-                    		Sales.update({group_name : sale[0], barcode: sale[1]}, sku, __cb);
+                    		SKU.update({group_name : sale[0], barcode: sale[1]}, sku, __cb);
                     		list.push(usku);
                     		diff.push(sku);
                     	} else {
                     		__cb();
                     	}
                     } else {
-			        	Sales.create(sku, __cb);
+			        	SKU.create(sku, __cb);
 			        	list.push(sku);
 			        }  
                 });
@@ -542,7 +453,7 @@ exports.uploadExcell = (sales, group_id, cb) => {
 exports.getallsales = (infos,cb) =>{
 	async.waterfall([
 		(_cb) => {
-			Sales.find({},function(err,doc){
+			SKU.find({},function(err,doc){
 				if(err){
 					_cb(500,"查询失败");
 
@@ -565,7 +476,7 @@ exports.getallsales = (infos,cb) =>{
 exports.addSales = (infos, cb) => {
 	async.waterfall([
 		(_cb) => {
-			Sales.findOne({name: infos.name}, (err, doc) => {
+			SKU.findOne({name: infos.name}, (err, doc) => {
 				if (err) {
 					_cb(501);
 				}else {
@@ -579,7 +490,7 @@ exports.addSales = (infos, cb) => {
 		},
 		(_cb) => {
 			
-			Sales.create(infos, (err, doc) => {
+			SKU.create(infos, (err, doc) => {
 				if(err){
 					console.log(err);
 					_cb(502,"数据类型不对");
@@ -704,7 +615,7 @@ exports.statusOfUpdate = (infos, cb) => {
 		(binds, stores, _cb) => {
 			let barcodes  = _.map(binds, 'barcode');
 			let list = [];
-			Sales.find({group_name: group_name, barcode: {$in: barcodes}}, (err, doc) => {
+			SKU.find({group_name: group_name, barcode: {$in: barcodes}}, (err, doc) => {
 				if (err) {
 					_cb(500)
 				} else {
@@ -770,7 +681,7 @@ exports.getSkus = (infos, cb) => {
 		(binds, group_name, _cb) => {
 			if (!binds.length) return _cb(null, []);
 			let barcodes = _.map(binds, 'barcode');
-			Sales.find({group_name: group_name, barcode : {$in: barcodes}}, (err, docs) => {
+			SKU.find({group_name: group_name, barcode : {$in: barcodes}}, (err, docs) => {
 				if(err){
 	 				_cb(500, err);
 	 			} else {

@@ -11,6 +11,7 @@ module.exports = {
 	ErrCode : {
     	500 : 'system error',
         501 : 'search error',
+        502 : 'wechat error',
     	600 : 'store already exists',
     	601 : 'barcode can not be null',
         602 : 'user can not be null',
