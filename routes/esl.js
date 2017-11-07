@@ -598,3 +598,33 @@ exports.getSkus = (request, response) => {
 		}
 	});
 }
+
+exports.getExcell =(request, response) =>{
+	let store_id = session.getUser(request.query.token);
+	let infos    = {store_id};
+	let errCode  = null;
+
+	if (!store_id) {
+		errCode = 607;
+	} 
+	if(errCode){
+		response.status(200).send({
+			result_code : errCode,
+			result_msg : ErrCode[errCode]
+		});
+		return;
+	}
+	esl.getExcell(infos, (err, data) => {
+		if (err) {
+			response.status(200).send({
+				result_code : err,
+				result_msg : ErrCode[err]
+			});
+		} else {
+			response.status(200).send({
+				result_code : 200,
+				result_msg : data
+			});
+		}
+	});
+}
