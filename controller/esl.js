@@ -693,7 +693,7 @@ exports.getExcell = (infos, cb) =>{
                 if (err) {
                     _cb(err);
                 } else {
-                    _cb(null);
+                    _cb(null,docs);
                 }
             });
 		}
