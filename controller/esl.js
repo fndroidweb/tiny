@@ -700,7 +700,7 @@ exports.getExcell = (infos, cb) =>{
 		},(skus,_cb) =>{
 			let barcodes = _.map(skus, 'barcode');
 			let workbook = new Excel.stream.xlsx.WorkbookWriter({
-                       filename: './public/sku.xlsx'
+                       filename: './sku.xlsx'
                  });
             let worksheet = workbook.addWorksheet('Sheet');
 
@@ -744,7 +744,7 @@ exports.getExcell = (infos, cb) =>{
                        }
 
                         workbook.commit();
-                        let filepath = "tiny.fndroid.com:6886/public/sku.xlsx";
+                        let filepath = "tiny.fndroid.com:6886/sku.xlsx";
 
 
         				_cb(null,filepath);
