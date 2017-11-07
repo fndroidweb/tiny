@@ -313,7 +313,59 @@ exports.uploadMp4 = (infos,files,cb) =>{
 		cb)
 }
 
+exports.uploadStorefile = (sales, store_id, cb) =>{
 
+	async.waterfall([
+		(_cb) => {
+			Store.findOne({store_id}, (err, doc) => {
+				if (err) {
+					_cb(500);
+				} else if (!doc) {
+					_cb(701);
+				} else {
+					_cb();
+				}
+			});
+		},
+        (_cb) => {
+        	let barcodes = _.map(sales, 'barcode');
+        	let req_id   = util.getID('request');
+        	async.eachSeries(stores, (store, __cb) => {
+        		if (!store.status) return __cb();
+        		Bind.find({store_id : store_id, barcode : {$in: barcodes}}, (err, docs) => {
+        			if (err) {
+        				__cb(500);
+        			} else if (!docs.length) {
+        				__cb();
+        			} else {
+        				let posts = [];
+        				for (let i = 0; i < docs.length; i++) {
+        					let index = _.indexOf(barcodes, docs[i].barcode);
+        					posts.push(sales[index]);
+        					Bind.update({store_id : store_id, barcode : docs[i].barcode}, {
+        						sale_price : sales[6],
+        						original_price : sales[7],
+        						leaguer_price  : sales[8]
+        						
+        					}, (err) => {/*do nothing*/});
+        				}
+        				TCP.updateESL( posts, req_id, __cb);
+        			}
+        		});
+        	}, (err) => {
+                if (err) {
+                    _cb(err);
+                } else {
+                    _cb(null, req_id);
+                }
+            });  
+        }
+	],
+	cb)
+
+
+
+}
 
 
 exports.uploadExcell = (sales, group_id, cb) => {
