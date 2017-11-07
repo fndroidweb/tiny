@@ -238,7 +238,7 @@ exports.changePrice = (request,response) =>{
 	};
 	infos.barcode   =  request.body.barcode;
 	infos.price     =  +request.body.price;
-	esl.changePrice(infos, (err, data) => {
+	esl.changePrice(infos, (err, data, count) => {
 		if(err){
 			response.status(200).send({
 				result_code : err,
@@ -247,7 +247,7 @@ exports.changePrice = (request,response) =>{
 		} else {
 			response.status(200).send({
 				result_code : 200,
-				result_msg  : 'change price successfully',
+				result_msg  : `change price successfully for ${count} stores`,
 				req_id      : data
 			});
 		}

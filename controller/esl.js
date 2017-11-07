@@ -141,11 +141,9 @@ exports.changePrice = (infos, cb) => {
 			SKU.update({
 				barcode :infos.barcode,
 				group_name : group.group_name
-			}, {sale_price : infos.price}, (err, doc) => {
+			}, {sale_price : infos.price}, (err) => {
 				if(err){
 					_cb(500);
-				} else if (!doc) {
-					_cb(703);
 				} else {
 					sku.sale_price = infos.price;
 					_cb(null, group, sku);
@@ -165,14 +163,18 @@ exports.changePrice = (infos, cb) => {
 		},
 		(stores, sku, _cb) => {
         	let req_id   = util.getID('price');
+        	let count    = 0;
         	async.eachSeries(stores, (store, __cb) => {
         		if (!store.status) return __cb();
- 				changeOnePrice(store, sku, req_id, __cb);
+ 				changeOnePrice(store, sku, req_id, (err) => {
+ 					if (!err) count++;
+ 					__cb();
+ 				});
         	}, (err) => {
                 if (err) {
                     _cb(err);
                 } else {
-                    _cb(null, req_id);
+                    _cb(null, req_id, count);
                 }
             });			
 		}
