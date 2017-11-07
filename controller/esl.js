@@ -113,7 +113,7 @@ exports.searchSalesInfo = (infos, cb) =>{
 	)
 }
 
-exports.changePrice = (infos, cb) =>{
+exports.changePrice = (infos, cb) => {
 	async.waterfall([
 		(_cb) =>{
         	Group.findOne({group_id : infos.group}, (err, doc) => {
@@ -127,7 +127,7 @@ exports.changePrice = (infos, cb) =>{
         	});
 		},
 		(group, _cb) => {
-			SKU.findOne({barcode: infos.barcode}, (err, doc) => {
+			SKU.findOne({barcode: infos.barcode, group_name: group.group_name}, (err, doc) => {
 				if (err) {
 					_cb(500);
 				} else if (!doc){
@@ -167,22 +167,7 @@ exports.changePrice = (infos, cb) =>{
         	let req_id   = util.getID('price');
         	async.eachSeries(stores, (store, __cb) => {
         		if (!store.status) return __cb();
-        		Bind.findOne({store_id : store.store_id, barcode : sku.barcode}, (err, doc) => {
-        			if (err) {
-        				__cb(500);
-        			} else if (!doc) {
-        				__cb();
-        			} else {
-    					Bind.update({store_id : store.store_id, barcode : sku.barcode}, {
-    						req_id : req_id,
-    						status : 2,
-    						$unset : {
-    							sale_price : true
-    						}
-    					}, (err) => {/*do nothing*/});
-        				TCP.updateESL(store, [sku], req_id, __cb);
-        			}
-        		});
+ 				changeOnePrice(store, sku, req_id, __cb);
         	}, (err) => {
                 if (err) {
                     _cb(err);
@@ -194,6 +179,41 @@ exports.changePrice = (infos, cb) =>{
 	],
 	cb
 	)
+}
+
+function changeOnePrice(store, sku, req_id, cb) {
+	async.waterfall([
+		(_cb) => {
+		    Bind.findOne({store_id : store.store_id, barcode : sku.barcode}, (err, doc) => {
+    			if (err) {
+    				_cb(500);
+    			} else if (!doc) {
+    				_cb(702);
+    			} else {
+    				_cb();
+    			}
+    		});
+		},
+		(_cb) => {
+			TCP.updateESL(store, [sku], req_id, _cb);
+		},
+		(_cb) => {
+			Bind.update({store_id : store.store_id, barcode : sku.barcode}, {
+				req_id : req_id,
+				status : 2,
+				$unset : {
+					sale_price : true
+				}
+			}, (err) => {
+				if (err) {
+					_cb(500);
+				} else {
+					_cb();
+				}
+			});	
+		},
+	],
+	cb)
 }
 
 
@@ -210,8 +230,8 @@ exports.getMp4url = (infos,cb) =>{
 
 			});
 		}
-		],
-		cb)
+	],
+	cb)
 }
 
 exports.uploadMp4 = (infos,files,cb) =>{
