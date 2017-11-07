@@ -700,7 +700,7 @@ exports.getExcell = (infos, cb) =>{
 		},(skus,_cb) =>{
 			let barcodes = _.map(skus, 'barcode');
 			let workbook = new Excel.stream.xlsx.WorkbookWriter({
-                       filename: './sku.xlsx'
+                       filename: './public/sku.xlsx'
                  });
             let worksheet = workbook.addWorksheet('Sheet');
 
