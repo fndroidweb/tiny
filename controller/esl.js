@@ -13,6 +13,7 @@ const Group   = require('../models/group');
 const Bind    = require('../models/bind');
 const Scheme  = require('../models/scheme');
 const Search  = require('../common/elasticsearch');
+const Excel   = require('exceljs');
 const Status  = ['初始化','绑定','开始更新','正在更新','显示成功','显示失败']
 
 
@@ -698,6 +699,10 @@ exports.getExcell = (infos, cb) =>{
 			});
 		},(skus,_cb) =>{
 			let barcodes = _.map(skus, 'barcode');
+			let workbook = new Excel.stream.xlsx.WorkbookWriter({
+                       filename: './sku.xlsx'
+                 });
+            let worksheet = workbook.addWorksheet('Sheet');
 
         		SKU.find({ barcode : {$in: barcodes}}, (err, docs) => {
         			if (err) {
@@ -705,11 +710,45 @@ exports.getExcell = (infos, cb) =>{
         			} else if (!docs.length) {
         				_cb();
         			} else {
+        				worksheet.columns = [
+        				{ header: '_id', key: '_id' },
+                        { header: 'updatedAt',  key: 'updatedAt' },
+                        { header: 'createdAt',  key: 'createdAt' },
+                        { header: 'group_name', key: 'group_name' },
+                        { header: 'barcode',    key: 'barcode' },
+                        { header: 'name',       key: 'name' },
+                        { header: 'sale_price',  key: 'sale_price' },
+                        { header: 'original_price',  key: 'original_price' },
+                        { header: 'leaguer_price',  key: 'leaguer_price' },
+                        { header: 'unit',  key: 'unit' },
+                        { header: 'origin',  key: 'origin' },
+                        { header: 'level',  key: 'level' },
+                        { header: 'specification',  key: 'specification' },
+                        { header: 'locate_str',  key: 'locate_str' },
+                        { header: 'inner_code',  key: 'inner_code' },
+                        { header: 'promotion_start',  key: 'promotion_start' },
+                        { header: 'promotion_end',  key: 'promotion_end' },
+                        { header: 'qrcode',  key: 'qrcode' },
+                        { header: 'price_employee',  key: 'price_employee' },
+                        { header: 'supper_telphone',  key: 'supper_telphone' },
+                        { header: 'print_date',  key: 'print_date' },
+                        { header: 'exhibition',  key: 'exhibition' },
+                        { header: 'shelf_position',  key: 'shelf_position' },
+                        { header: 'inventory',  key: 'inventory' },
+                        { header: 'supplier',  key: 'supplier' },
+                        { header: '__v',  key: '__v' }];
+
+		             for(let i in docs) {
+					  worksheet.addRow(docs[i]).commit();
+					  
+                       }
+
+                        workbook.commit();
+
+
         				_cb(null,docs);
-        				console.log("10000");
         				
         			
-   	
         			}
         		});
         	}
