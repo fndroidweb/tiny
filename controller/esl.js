@@ -698,6 +698,7 @@ exports.getExcell = (infos, cb) =>{
 			});
 		},(skus,_cb) =>{
 			let barcodes = _.map(skus, 'barcode');
+			let data ={};
 			async.eachSeries((__cb) => {
         		
         		SKU.find({ barcode : {$in: barcodes}}, (err, docs) => {
@@ -708,11 +709,18 @@ exports.getExcell = (infos, cb) =>{
         			} else {
         				__cb(null,docs);
         				console.log("10000");
+        				data = docs;
         			
    	
         			}
         		});
-        	});
+        	},(err) => {
+                if (err) {
+                    _cb(err);
+                } else {
+                    _cb(null,data);
+                }
+            });
 		}
 		],
 		cb
