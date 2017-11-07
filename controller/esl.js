@@ -685,17 +685,12 @@ exports.getExcell = (infos, cb) =>{
         				__cb();
         			} else {
         				__cb(null,docs);
+        				console.log("10000");
         			
-        				
+   	
         			}
         		});
-        	}, (err) => {
-                if (err) {
-                    _cb(err);
-                } else {
-                    _cb(null,docs);
-                }
-            });
+        	});
 		}
 		],
 		cb
