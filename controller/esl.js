@@ -639,6 +639,48 @@ exports.statusOfUpdate = (infos, cb) => {
 	cb
 	)
 }
+/**
+  * 分店获取商品表
+  */
+exports.getExcell = (infos, cb) =>{
+	async.waterfall([
+		(_cb) =>{
+			Store.findOne({store_id : infos.store_id},(err, doc) => {
+				if(err){
+ 					_cb(500, err);
+ 				} else if (!doc) {
+ 					_cb(701);
+ 				} else {
+ 					_cb(null, doc.group);
+ 				}
+ 			});	
+
+		},
+		(group_id, _cb) => {
+			Group.findOne({group_id}, (err, doc) => {
+ 				if(err){
+ 					_cb(500, err);
+ 				} else if (!doc) {
+ 					_cb(704);
+ 				} else {
+ 					_cb(null, doc.group_name);
+ 				}				
+			});
+		},(group_name, _cb) => {
+			Bind.find({store_id: infos.store_id}, (err, docs) => {
+ 				if(err){
+ 					_cb(500, err);
+ 				} else {
+ 					_cb(null, docs);
+ 				}
+			});
+		}
+		],
+		cb
+		)
+
+
+}
 
 
  /**

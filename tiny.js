@@ -74,6 +74,8 @@ app.post('/store/price'        , store.changePrice);
 app.post('/store/changepasswd' , store.changePasswd);
 //分店获取商品
 app.get('/store/sku/get'       , esl.getSkus);
+//分店导出商品
+app.get('/store/excell/get'    , esl.getExcell);
 
 app.post('/esl/uploadmp4'      , esl.uploadMp4);
 
