@@ -713,8 +713,7 @@ exports.getExcell = (infos, cb) =>{
         			}
         		});
         	}
-           
-		}
+           	
 		],
 		cb
 		)
