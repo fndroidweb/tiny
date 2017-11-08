@@ -77,7 +77,7 @@ app.get('/store/sku/get'       , esl.getSkus);
 //分店导出商品
 app.get('/store/excell/get'    , esl.getExcell);
 //分店上传商品
-app.post('/store/excell'       ,esl.uploadStorefile);
+app.post('/store/excell'       , esl.uploadStorefile);
 
 app.post('/esl/uploadmp4'      , esl.uploadMp4);
 

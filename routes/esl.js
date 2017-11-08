@@ -372,7 +372,7 @@ exports.uploadStorefile =(request, response) =>{
 			util.deleteFile(files);
 		}	
 
-		esl.uploadStorefile(obj[0].data, group_id, (err, data, req_id) => {
+		esl.uploadStorefile(obj[0].data, store_id,(err, data, req_id) => {
 			log_sku.info('uploadExcell finished', err, data, req_id);
 			if(err){
 				response.status(200).send({
@@ -562,9 +562,11 @@ exports.statusOfUpdate = function(request, response){
 	let errCode = null;
 	let infos = {};
 	let group_id =  session.getUser(request.query.token);
-	if (!group_id) {
+	if (!group_id) 
+	{
 		errCode = 607;
-	} else if (!request.query.req_id) {
+	} else if (!request.query.req_id) 
+	{
 		errCode = 706;
 	}
 

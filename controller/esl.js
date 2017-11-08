@@ -314,6 +314,7 @@ exports.uploadMp4 = (infos,files,cb) =>{
 }
 
 exports.uploadStorefile = (sales, store_id, cb) =>{
+	console.log(sales);
 
 	async.waterfall([
 		(_cb) => {
@@ -330,8 +331,8 @@ exports.uploadStorefile = (sales, store_id, cb) =>{
         (_cb) => {
         	let barcodes = _.map(sales, 'barcode');
         	let req_id   = util.getID('request');
-        	async.eachSeries(stores, (store, __cb) => {
-        		if (!store.status) return __cb();
+        	async.eachSeries( (__cb) => {
+        		
         		Bind.find({store_id : store_id, barcode : {$in: barcodes}}, (err, docs) => {
         			if (err) {
         				__cb(500);
@@ -349,6 +350,7 @@ exports.uploadStorefile = (sales, store_id, cb) =>{
         						
         					}, (err) => {/*do nothing*/});
         				}
+        				console.log("11111111111");
         				TCP.updateESL( posts, req_id, __cb);
         			}
         		});
