@@ -53,7 +53,8 @@ module.exports = {
         906 : 'start_time need to be sent',
         907 : 'end_time need to be sent',
         908 : 'cycle_time need to be sent',
-        909 : 'scheme no not exist'
+        909 : 'scheme no not exist',
+        910 : 'no skus for this store'
     },
     initConfig : {
         partnerKey: "fndroidsx5708080123456789ABCDEFG",

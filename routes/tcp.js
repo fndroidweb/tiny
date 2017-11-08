@@ -183,7 +183,6 @@ function updateESL(store, sku, req_id, cb) {
             madein         : sku[i].origin
         });
     }
-    console.log(CONNECTS)
     if (CONNECTS[`${store.ip}:${store.port}`]) {
         let num = 0;
         while(num < list.length) {

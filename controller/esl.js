@@ -314,8 +314,6 @@ exports.uploadMp4 = (infos,files,cb) =>{
 }
 
 exports.uploadStorefile = (sales, store_id, cb) =>{
-	console.log(sales);
-
 	async.waterfall([
 		(_cb) => {
 			Store.findOne({store_id}, (err, doc) => {
@@ -324,49 +322,95 @@ exports.uploadStorefile = (sales, store_id, cb) =>{
 				} else if (!doc) {
 					_cb(701);
 				} else {
-					_cb();
+					_cb(null, doc);
 				}
 			});
 		},
-        (_cb) => {
-        	let barcodes = _.map(sales, 'barcode');
+        (store, _cb) => {
+        	let barcodes = [];
+        	if (!sales || !sales.length) return _cb(612);
+        	sales = sales.slice(1);
+        	for (let i = 0; i < sales.length; i++) {
+ 				if (!sales[i][0]) {
+	        		return __cb(613);
+	        	} else if (!sales[i][1]) {
+	        		return __cb(601);
+	        	} else if(!sales[i][2]) {
+	        		return __cb(614);
+	        	} else if(!sales[i][3] || isNaN(sales[i][3])) {
+	        		return __cb(615);
+	        	} else if(!sales[i][11]){
+	        		return __cb(616);
+	        	} else if (sales[i][4] && isNaN(sales[i][4])) {
+	        		return __cb(617);
+	        	} else if (sales[i][5] && isNaN(sales[i][5])) {
+	        		return __cb(617);
+	        	} else if (sales[i][12] && isNaN(sales[i][12])) {
+	        		return __cb(618);
+	        	} else if (sales[i][13] && isNaN(sales[i][13])) {
+	        		return __cb(618);
+	        	} else if (sales[i][17] && isNaN(sales[i][17])) {
+	        		return __cb(618);
+	        	}
+	        	barcodes.push(sales[i][1]);      		
+        	}
         	let req_id   = util.getID('request');
-        	async.eachSeries( (__cb) => {
-        		
-        		Bind.find({store_id : store_id, barcode : {$in: barcodes}}, (err, docs) => {
-        			if (err) {
-        				__cb(500);
-        			} else if (!docs.length) {
-        				__cb();
-        			} else {
-        				let posts = [];
-        				for (let i = 0; i < docs.length; i++) {
-        					let index = _.indexOf(barcodes, docs[i].barcode);
-        					posts.push(sales[index]);
-        					Bind.update({store_id : store_id, barcode : docs[i].barcode}, {
-        						sale_price : sales[6],
-        						original_price : sales[7],
-        						leaguer_price  : sales[8]
-        						
-        					}, (err) => {/*do nothing*/});
-        				}
-        				console.log("11111111111");
-        				TCP.updateESL( posts, req_id, __cb);
-        			}
-        		});
-        	}, (err) => {
-                if (err) {
-                    _cb(err);
-                } else {
-                    _cb(null, req_id);
-                }
-            });  
+    		Bind.find({store_id : store_id, barcode : {$in: barcodes}}, (err, docs) => {
+    			if (err) {
+    				_cb(500);
+    			} else if (!docs.length) {
+    				_cb(910);
+    			} else {
+    				let posts = [];
+    				for (let i = 0; i < docs.length; i++) {
+    					let index = _.indexOf(barcodes, docs[i].barcode);
+    					if (docs[i].sale_price == sales[index][3] &&
+    						docs[i].original_price == sales[index][4] &&
+    						docs[i].leaguer_price == sales[index][5]) {
+    						continue;
+    					}
+    					posts.push({
+    						group_name     : sales[index][0],
+    						barcodes       : sales[index][1],
+    						name           : sales[index][2],
+    						sale_price     : sales[index][3],
+    						original_price : sales[index][4],
+    						leaguer_price  : sales[index][5],
+    						unit           : sales[index][6],
+    						origin         : sales[index][7],
+    						level          : sales[index][8],
+    						specification  : sales[index][9],
+    						locate_str     : sales[index][10],
+    						inner_code     : sales[index][11],
+    						promotion_start: new Date(1900, 0, sales[index][12]),
+    						promotion_end  : new Date(1900, 0, sales[index][13]),
+    						qrcode         : sales[index][14],
+    						price_employee : sales[index][15],
+    						supper_telphone: sales[index][16],
+    						print_date     : new Date(1900, 0, sales[index][17]),
+    						exhibition     : sales[index][18],
+    						shelf_position : sales[index][19],
+    						inventory      : sales[index][20],
+    						supplier       : sales[index][21],
+    					});
+    					Bind.update({store_id : store_id, barcode : docs[i].barcode}, {
+    						sale_price : sales[index][3],
+    						original_price : sales[index][4],
+    						leaguer_price  : sales[index][5]
+    					}, (err) => {/*do nothing*/});
+    				}
+    				if (posts.length) {
+    					TCP.updateESL(store, posts, req_id, (err) => {
+    						if (err) return _cb(err);
+    					});
+    				}
+    				_cb(null, posts, req_id);
+    			}
+    		});
         }
 	],
-	cb)
-
-
-
+	cb
+	)
 }
 
 
@@ -568,7 +612,6 @@ exports.addSales = (infos, cb) => {
 			
 			Sales.create(infos, (err, doc) => {
 				if(err){
-					console.log(err);
 					_cb(502,"数据类型不对");
 				} else {
 					_cb(null, "添加成功");
@@ -731,7 +774,6 @@ exports.getExcell = (infos, cb) =>{
  					_cb(null, doc.group);
  				}
  			});	
-
 		},
 		(group_id, _cb) => {
 			Group.findOne({group_id}, (err, doc) => {
@@ -743,7 +785,8 @@ exports.getExcell = (infos, cb) =>{
  					_cb(null, doc.group_name);
  				}				
 			});
-		},(group_name, _cb) => {
+		},
+		(group_name, _cb) => {
 			Bind.find({store_id: infos.store_id}, (err, docs) => {
  				if(err){
  					_cb(500, err);
@@ -751,68 +794,55 @@ exports.getExcell = (infos, cb) =>{
  					_cb(null, docs);
  				}
 			});
-		},(skus,_cb) =>{
+		},
+		(skus,_cb) => {
 			let barcodes = _.map(skus, 'barcode');
 			let workbook = new Excel.stream.xlsx.WorkbookWriter({
-                       filename: './public/sku.xlsx'
-                 });
+               	filename: './public/sku.xlsx'
+            });
             let worksheet = workbook.addWorksheet('Sheet');
+    		SKU.find({ barcode : {$in: barcodes}}, (err, docs) => {
+    			if (err) {
+    				_cb(500);
+    			} else if (!docs.length) {
+    				_cb(910);
+    			} else {
+    				worksheet.columns = [
+                    { header: 'group_name',     key: 'group_name' },
+                    { header: 'barcode',        key: 'barcode' },
+                    { header: 'name',           key: 'name' },
+                    { header: 'sale_price',     key: 'sale_price' },
+                    { header: 'original_price', key: 'original_price' },
+                    { header: 'leaguer_price',  key: 'leaguer_price' },
+                    { header: 'unit',           key: 'unit' },
+                    { header: 'origin',         key: 'origin' },
+                    { header: 'level',          key: 'level' },
+                    { header: 'specification',  key: 'specification' },
+                    { header: 'locate_str',     key: 'locate_str' },
+                    { header: 'inner_code',     key: 'inner_code' },
+                    { header: 'promotion_start',key: 'promotion_start' },
+                    { header: 'promotion_end',  key: 'promotion_end' },
+                    { header: 'qrcode',         key: 'qrcode' },
+                    { header: 'price_employee', key: 'price_employee' },
+                    { header: 'supper_telphone',key: 'supper_telphone' },
+                    { header: 'print_date',     key: 'print_date' },
+                    { header: 'exhibition',     key: 'exhibition' },
+                    { header: 'shelf_position', key: 'shelf_position' },
+                    { header: 'inventory',      key: 'inventory' },
+                    { header: 'supplier',       key: 'supplier' }];
 
-        		SKU.find({ barcode : {$in: barcodes}}, (err, docs) => {
-        			if (err) {
-        				_cb(500);
-        			} else if (!docs.length) {
-        				_cb();
-        			} else {
-        				worksheet.columns = [
-        				{ header: '_id', key: '_id' },
-                        { header: 'updatedAt',  key: 'updatedAt' },
-                        { header: 'createdAt',  key: 'createdAt' },
-                        { header: 'group_name', key: 'group_name' },
-                        { header: 'barcode',    key: 'barcode' },
-                        { header: 'name',       key: 'name' },
-                        { header: 'sale_price',  key: 'sale_price' },
-                        { header: 'original_price',  key: 'original_price' },
-                        { header: 'leaguer_price',  key: 'leaguer_price' },
-                        { header: 'unit',  key: 'unit' },
-                        { header: 'origin',  key: 'origin' },
-                        { header: 'level',  key: 'level' },
-                        { header: 'specification',  key: 'specification' },
-                        { header: 'locate_str',  key: 'locate_str' },
-                        { header: 'inner_code',  key: 'inner_code' },
-                        { header: 'promotion_start',  key: 'promotion_start' },
-                        { header: 'promotion_end',  key: 'promotion_end' },
-                        { header: 'qrcode',  key: 'qrcode' },
-                        { header: 'price_employee',  key: 'price_employee' },
-                        { header: 'supper_telphone',  key: 'supper_telphone' },
-                        { header: 'print_date',  key: 'print_date' },
-                        { header: 'exhibition',  key: 'exhibition' },
-                        { header: 'shelf_position',  key: 'shelf_position' },
-                        { header: 'inventory',  key: 'inventory' },
-                        { header: 'supplier',  key: 'supplier' },
-                        { header: '__v',  key: '__v' }];
-
-		             for(let i in docs) {
-					  worksheet.addRow(docs[i]).commit();
-					  
-                       }
-
-                        workbook.commit();
-                        let filepath = "tiny.fndroid.com:6886/sku.xlsx";
-
-
-        				_cb(null,filepath);
-        				
-        			
-        			}
-        		});
-        	}
-           	
-		],
-		cb
-		)
-
-
+	            	for(let i in docs) {
+				  		worksheet.addRow(docs[i]).commit();
+                    }
+                    workbook.commit();
+                    let filepath = "tiny.fndroid.com:6886/sku.xlsx";
+    				_cb(null, filepath);		
+        		}
+        	});
+        }   	
+	],
+	cb
+	)
 }
 
 

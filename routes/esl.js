@@ -328,16 +328,12 @@ exports.uploadMp4 = (request,response) =>{
 	});
 
 }
+
 /**
-* 分店上传商品列表
-*
-*
-*
-*
-**/
+ * 分店上传商品列表
+ **/
 exports.uploadStorefile =(request, response) =>{
 	let errCode = 0;
-
 	let infos = {};
 	var form = new formidable.IncomingForm();
 	form.multiples = true;
@@ -348,7 +344,7 @@ exports.uploadStorefile =(request, response) =>{
 	form.parse(request, (err, fields, files) => {
 		let store_id =  session.getUser(fields.token);
 		log_sku.info('uploadExcell start', store_id, fields);
-		let obj      = null;
+		let obj = null;
 		if (!store_id) {
 			errCode = 607;
 		} else if (!files.sale || !files.sale.size) {
@@ -356,13 +352,11 @@ exports.uploadStorefile =(request, response) =>{
 		} else if (files.sale.type != 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
 			errCode = 611;
 		}
-
 		try {
 			obj = xlsx.parse(files.sale.path);
 		} catch (e) {
 			errCode = 612;
 		}
-
 		if (errCode) {
 			response.status(200).send({
 				result_code : errCode,
@@ -372,7 +366,7 @@ exports.uploadStorefile =(request, response) =>{
 			util.deleteFile(files);
 		}	
 
-		esl.uploadStorefile(obj[0].data, store_id,(err, data, req_id) => {
+		esl.uploadStorefile(obj[0].data, store_id, (err, data, req_id) => {
 			log_sku.info('uploadExcell finished', err, data, req_id);
 			if(err){
 				response.status(200).send({
@@ -671,7 +665,6 @@ exports.getExcell =(request, response) =>{
 	let store_id = session.getUser(request.query.token);
 	let infos    = {store_id};
 	let errCode  = null;
-
 	if (!store_id) {
 		errCode = 607;
 	} 
