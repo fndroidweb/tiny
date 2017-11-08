@@ -3,7 +3,7 @@
 const fs = require('fs');
 module.exports = {
 	mongo: {
-		uri : 'mongodb://tiny:123456@106.14.214.43:27017/tiny'
+		uri : 'mongodb://tiny:123456@106.14.0.16:27017/tiny'
 	},
 	port: 6886,
 	domain: 'http://tiny.fndroid.com',
