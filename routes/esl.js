@@ -328,7 +328,73 @@ exports.uploadMp4 = (request,response) =>{
 	});
 
 }
+/**
+* 分店上传商品列表
+*
+*
+*
+*
+**/
+exports.uploadStorefile =(request, response) =>{
+	let errCode = 0;
 
+	let infos = {};
+	var form = new formidable.IncomingForm();
+	form.multiples = true;
+	form.encoding = 'utf-8';
+	form.uploadDir = './public';
+	form.keepExtensions = true;
+	form.maxFieldsSize = 2 * 1024 * 1024;
+	form.parse(request, (err, fields, files) => {
+		let store_id =  session.getUser(fields.token);
+		log_sku.info('uploadExcell start', store_id, fields);
+		let obj      = null;
+		if (!store_id) {
+			errCode = 607;
+		} else if (!files.sale || !files.sale.size) {
+			errCode = 611;
+		} else if (files.sale.type != 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
+			errCode = 611;
+		}
+
+		try {
+			obj = xlsx.parse(files.sale.path);
+		} catch (e) {
+			errCode = 612;
+		}
+
+		if (errCode) {
+			response.status(200).send({
+				result_code : errCode,
+				result_msg : ErrCode[errCode]
+			});
+			return;
+			util.deleteFile(files);
+		}	
+
+		esl.uploadStorefile(obj[0].data, group_id, (err, data, req_id) => {
+			log_sku.info('uploadExcell finished', err, data, req_id);
+			if(err){
+				response.status(200).send({
+					result_code : err,
+					result_msg  : ErrCode[err]
+				});
+			}else{
+				response.status(200).send({
+					result_code : 200,
+					result_msg  : data,
+					req_id      : req_id
+				});
+			}
+			util.deleteFile(files);
+		});
+	});
+
+
+
+
+
+}
 
 /**
   *	上传商品列表

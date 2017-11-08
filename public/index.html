@@ -378,6 +378,21 @@
 					</table>
 				</form>
 			</div>
+			<div class="span4">
+				<h1>上传分店商品列表</h1>
+				<br>
+				<p>功能：上传Excel，商品列表</p>
+				<p>token     : 分店登陆验证</p>
+				
+				<form action="/store/excell" method="post" enctype ='multipart/form-data'>
+					<table>
+						<tr><td>token</td><td><input type="text" name="token"/></td></tr>
+						<tr><td>dev</td><td><input type="file" name="sale" /></td></tr>
+						<tr><td>&nbsp;</td></tr>
+						<tr><td><input type="submit" value="上传" /></td></tr>
+					</table>
+				</form>
+			</div>
 		</section>
   </body>
 
