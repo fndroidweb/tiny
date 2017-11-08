@@ -371,7 +371,7 @@ exports.uploadStorefile = (sales, store_id, cb) =>{
     					}
     					posts.push({
     						group_name     : sales[index][0],
-    						barcodes       : sales[index][1],
+    						barcode        : sales[index][1],
     						name           : sales[index][2],
     						sale_price     : sales[index][3],
     						original_price : sales[index][4],
